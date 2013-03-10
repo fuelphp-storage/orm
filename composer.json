@@ -1,0 +1,24 @@
+{
+	"name": "fuelphp/orm",
+	"type": "library",
+	"description": "FuelPHP ORM package",
+	"keywords": ["ORM", "Activerecord", "Datamapper"],
+	"homepage": "https://github.com/fuelphp/orm",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "FuelPHP Development Team",
+			"email": "team@fuelphp.com"
+		}
+	],
+	"require": {
+		"php": ">=5.3.3"
+	},
+	"require-dev": {
+		"mockery/mockery": "0.7.*"
+	},
+	"autoload": {
+		"psr-0": { "FuelPHP\\Orm": "src/" }
+	},
+	"minimum-stability": "dev"
+}
