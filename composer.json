@@ -12,13 +12,13 @@
 		}
 	],
 	"require": {
-		"php": ">=5.3.3"
+		"php": ">=5.4"
 	},
 	"require-dev": {
 		"mockery/mockery": "0.7.*"
 	},
 	"autoload": {
-		"psr-0": { "FuelPHP\\Orm": "src/" }
+		"psr-0": { "Fuel\\Orm": "src/" }
 	},
 	"minimum-stability": "dev"
 }
