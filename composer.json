@@ -12,13 +12,17 @@
 		}
 	],
 	"require": {
-		"php": ">=5.4"
+		"php": ">=5.4",
+		"fuelphp/common": "dev-master"
 	},
 	"require-dev": {
 		"mockery/mockery": "0.7.*"
 	},
 	"autoload": {
 		"psr-0": { "Fuel\\Orm": "src/" }
+	},
+	"suggest": {
+		"fuelphp/validation": "Allows models to be validated"
 	},
 	"minimum-stability": "dev"
 }
