@@ -32,7 +32,7 @@ class Model extends DataContainer
 	 */
 	protected $isNew = true;
 
-	public function __construct(array $data = [], $readOnly = false)
+	public function __construct($data = [], $readOnly = false)
 	{
 		parent::__construct($data, $readOnly);
 
@@ -54,12 +54,6 @@ class Model extends DataContainer
 		if (is_array($data))
 		{
 			$data = new DataContainer($data);
-		}
-
-		if ( ! $data instanceof DataContainer)
-		{
-			// TODO: Add translatable stuff here
-			throw new \InvalidArgumentException('The data must be an array or a DataContainer');
 		}
 
 		// Make sure the original data can't be changed
@@ -99,7 +93,7 @@ class Model extends DataContainer
 	 */
 	public function isNew()
 	{
-		return $this->isNew();
+		return $this->isNew;
 	}
 
 	/**
