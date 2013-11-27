@@ -69,6 +69,8 @@ class Model extends DataContainer
 	 *
 	 * @return $this
 	 *
+	 * @throws \InvalidArgumentException
+	 *
 	 * @since 2.0
 	 */
 	public function setIsNew($status)
