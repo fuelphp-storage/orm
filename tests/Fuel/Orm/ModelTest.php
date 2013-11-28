@@ -53,7 +53,7 @@ class ModelTest extends \PHPUnit_Framework_TestCase
 	 * @expectedException  \InvalidArgumentException
 	 * @group              Orm
 	 */
-	public function testInvalidIsNew()
+	public function testIsNewInvalid()
 	{
 		$this->object->setIsNew(new \stdClass());
 	}
@@ -67,6 +67,23 @@ class ModelTest extends \PHPUnit_Framework_TestCase
 		$this->assertInstanceOf(
 			'Fuel\Common\DataContainer',
 			$this->object->getOriginalData()
+		);
+	}
+
+	/**
+	 * @coversDefaultClass setProvider
+	 * @coversDefaultClass getProvider
+	 * @group              Orm
+	 */
+	public function testSetGetProvider()
+	{
+		$provider = \Mockery::mock('Fuel\Orm\ProviderInterface');
+
+		$this->object->setProvider($provider);
+
+		$this->assertEquals(
+			$provider,
+			$this->object->getProvider()
 		);
 	}
 

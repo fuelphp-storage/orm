@@ -19,13 +19,18 @@ use Fuel\Common\DataContainer;
  * @author  Fuel Development Team
  * @since   2.0
  */
-class Model extends DataContainer
+class Model extends DataContainer implements ModelInterface
 {
 
 	/**
 	 * @var DataContainer
 	 */
 	protected $originalData;
+
+	/**
+	 * @var ProviderInterface
+	 */
+	protected $provider;
 
 	/**
 	 * @var bool
@@ -108,6 +113,30 @@ class Model extends DataContainer
 	public function getOriginalData()
 	{
 		return $this->originalData;
+	}
+
+	/**
+	 * Sets the Provider that created this model
+	 *
+	 * @param ProviderInterface $provider
+	 *
+	 * @return $this
+	 */
+	public function setProvider(ProviderInterface $provider)
+	{
+		$this->provider = $provider;
+
+		return $this;
+	}
+
+	/**
+	 * Gets the Provider for this model
+	 *
+	 * @return ProviderInterface
+	 */
+	public function getProvider()
+	{
+		return $this->provider;
 	}
 
 }
