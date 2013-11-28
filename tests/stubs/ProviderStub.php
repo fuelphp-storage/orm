@@ -24,11 +24,21 @@ class ProviderStub extends \Fuel\Orm\Provider
 	/**
 	 * Used to be able to easily test invalid model classes
 	 *
-	 * @param $class
+	 * @param string $class
 	 */
 	public function setModelClass($class)
 	{
 		$this->modelClass = $class;
+	}
+
+	/**
+	 * Used to set the value of the table name property for testing
+	 *
+	 * @param string $name
+	 */
+	public function setTableName($name)
+	{
+		$this->tableName = $name;
 	}
 
 }

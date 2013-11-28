@@ -10,6 +10,8 @@
 
 namespace Fuel\Orm;
 
+use RuntimeException;
+
 /**
  * Defines properties of a model and a single point to fetch/save them
  *
@@ -31,6 +33,12 @@ class Provider implements ProviderInterface
 	 * @var string
 	 */
 	protected $modelClass = '\Fuel\Orm\Model';
+
+	/**
+	 * Contains the name of the table this Provider will interact with
+	 * @var string
+	 */
+	protected $tableName;
 
 	/**
 	 * Returns a list of properties
@@ -69,7 +77,7 @@ class Provider implements ProviderInterface
 	 *
 	 * @return string
 	 *
-	 * @throws \RuntimeException
+	 * @throws RuntimeException
 	 *
 	 * @since 2.0
 	 */
@@ -78,7 +86,7 @@ class Provider implements ProviderInterface
 		if ( ! in_array('Fuel\Orm\ModelInterface', class_implements($this->modelClass)))
 		{
 			// TODO: make this translatable
-			throw new \RuntimeException('The given model class must implement ModelInterface');
+			throw new RuntimeException('The given model class must implement ModelInterface');
 		}
 
 		return $this->modelClass;
@@ -94,5 +102,23 @@ class Provider implements ProviderInterface
 	public function getQuery()
 	{
 		return new Query($this);
+	}
+
+	/**
+	 * Gets the name of the table assigned to this Provider
+	 *
+	 * @return string
+	 *
+	 * @since 2.0
+	 */
+	public function getTableName()
+	{
+		if ($this->tableName === null)
+		{
+			// TODO: Make this translatable
+			throw new RuntimeException('No table name specified for '.get_class());
+		}
+
+		return $this->tableName;
 	}
 }

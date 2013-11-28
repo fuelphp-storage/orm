@@ -115,4 +115,29 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @coversDefaultClass getTableName
+	 * @expectedException  \RuntimeException
+	 * @group              Orm
+	 */
+	public function testGetTableNameInvalid()
+	{
+		$this->object->getTableName();
+	}
+
+	/**
+	 * @coversDefaultClass getTableName
+	 * @group              Orm
+	 */
+	public function testGetTableName()
+	{
+		$name = 'my_table';
+		$this->object->setTableName($name);
+
+		$this->assertEquals(
+			$name,
+			$this->object->getTableName()
+		);
+	}
+
 }

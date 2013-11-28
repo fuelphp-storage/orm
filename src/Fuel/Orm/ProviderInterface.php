@@ -49,4 +49,12 @@ interface ProviderInterface
 	 */
 	public function getQuery();
 
+	/**
+	 * Gets the name of the table assigned to this Provider
+	 *
+	 * @return string
+	 *
+	 * @since 2.0
+	 */
+	public function getTableName();
 }
