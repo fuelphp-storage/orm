@@ -56,8 +56,9 @@ class AbstractProvider implements ProviderInterface
 	public function forgeModelInstance($data = [])
 	{
 		$class = $this->getModelClass();
-		$instance = new $class($data);
 
+		/** @var ModelInterface $instance */
+		$instance = new $class($data);
 		$instance->setProvider($this);
 
 		return $instance;
