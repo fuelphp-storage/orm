@@ -17,7 +17,7 @@ namespace Fuel\Orm;
  * @author  Fuel Development Team
  * @since   2.0
  */
-abstract class AbstractProvider implements ProviderInterface
+class AbstractProvider implements ProviderInterface
 {
 
 	/**
@@ -30,7 +30,7 @@ abstract class AbstractProvider implements ProviderInterface
 	 * Contains the full name of the class that this provider will use for models
 	 * @var string
 	 */
-	protected $modelClass = '';
+	protected $modelClass = '\Fuel\Orm\Model';
 
 	/**
 	 * Returns a list of properties
@@ -42,6 +42,45 @@ abstract class AbstractProvider implements ProviderInterface
 	public function getProperties()
 	{
 		return $this->properties;
+	}
+
+	/**
+ 	* Creates a new instance of the Provider's Model
+ 	*
+ 	* @param array $data Optional default data for the Model to contain
+ 	*
+ 	* @return ModelInterface
+ 	*
+ 	* @since 2.0
+ 	*/
+	public function forgeModelInstance($data = [])
+	{
+		$class = $this->getModelClass();
+		$instance = new $class($data);
+
+		$instance->setProvider($this);
+
+		return $instance;
+	}
+
+	/**
+	 * Gets the class name of the model that this provider will create.
+	 *
+	 * @return string
+	 *
+	 * @throws \RuntimeException
+	 *
+	 * @since 2.0
+	 */
+	public function getModelClass()
+	{
+		if ( ! in_array('Fuel\Orm\ModelInterface', class_implements($this->modelClass)))
+		{
+			// TODO: make this translatable
+			throw new \RuntimeException('The given model class must implement ModelInterface');
+		}
+
+		return $this->modelClass;
 	}
 
 }

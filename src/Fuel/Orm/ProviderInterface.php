@@ -29,4 +29,15 @@ interface ProviderInterface
 	 */
 	public function getProperties();
 
+	/**
+	 * Creates a new instance of the Provider's Model
+	 *
+	 * @param array $data Optional default data for the Model to contain
+	 *
+	 * @return ModelInterface
+	 *
+	 * @since 2.0
+	 */
+	public function forgeModelInstance($data = []);
+
 }
