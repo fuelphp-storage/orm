@@ -10,26 +10,26 @@
 
 namespace Fuel\Orm;
 
-require __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'stubs'.DIRECTORY_SEPARATOR.'AbstractProviderStub.php';
+require __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'stubs'.DIRECTORY_SEPARATOR.'ProviderStub.php';
 
 /**
- * Tests for AbstractProvider
+ * Tests for Provider
  *
  * @package Fuel\Orm
  * @author  Fuel Development Team
- * @covers  Fuel\Orm\AbstractProvider
+ * @covers  Fuel\Orm\Provider
  */
-class AbstractProviderTest extends \PHPUnit_Framework_TestCase
+class ProviderTest extends \PHPUnit_Framework_TestCase
 {
 
 	/**
-	 * @var \AbstractProviderStub
+	 * @var \ProviderStub
 	 */
 	protected $object;
 
 	protected function setUp()
 	{
-		$this->object = new \AbstractProviderStub();
+		$this->object = new \ProviderStub();
 	}
 
 	/**
@@ -94,6 +94,25 @@ class AbstractProviderTest extends \PHPUnit_Framework_TestCase
 		$this->object->setModelClass('\stdClass');
 
 		$this->object->getModelClass();
+	}
+
+	/**
+	 * @coversDefaultClass getQuery
+	 * @group              Orm
+	 */
+	public function testGetQuery()
+	{
+		$query = $this->object->getQuery();
+
+		$this->assertInstanceOf(
+			'\Fuel\Orm\Query',
+			$query
+		);
+
+		$this->assertEquals(
+			$this->object,
+			$query->getProvider()
+		);
 	}
 
 }

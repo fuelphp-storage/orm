@@ -40,4 +40,13 @@ interface ProviderInterface
 	 */
 	public function forgeModelInstance($data = []);
 
+	/**
+	 * Gets a Query object that can be used to interact with the provider's table
+	 *
+	 * @return Query
+	 *
+	 * @since 2.0
+	 */
+	public function getQuery();
+
 }

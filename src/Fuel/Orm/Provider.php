@@ -17,7 +17,7 @@ namespace Fuel\Orm;
  * @author  Fuel Development Team
  * @since   2.0
  */
-class AbstractProvider implements ProviderInterface
+class Provider implements ProviderInterface
 {
 
 	/**
@@ -84,4 +84,15 @@ class AbstractProvider implements ProviderInterface
 		return $this->modelClass;
 	}
 
+	/**
+	 * Gets a Query object that can be used to interact with this provider's table
+	 *
+	 * @return Query
+	 *
+	 * @since 2.0
+	 */
+	public function getQuery()
+	{
+		return new Query($this);
+	}
 }

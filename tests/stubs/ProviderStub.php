@@ -9,12 +9,12 @@
  */
 
 /**
- * Sub class for testing AbstractProvider
+ * Sub class for testing Provider
  *
  * @author  Fuel Development Team
  * @package Fuel\Orm
  */
-class AbstractProviderStub extends \Fuel\Orm\AbstractProvider
+class ProviderStub extends \Fuel\Orm\Provider
 {
 
 	protected $properties = [
