@@ -10,6 +10,7 @@
 
 namespace Fuel\Orm;
 
+use Fuel\Database\DB;
 use RuntimeException;
 
 /**
@@ -39,6 +40,17 @@ class Provider implements ProviderInterface
 	 * @var string
 	 */
 	protected $tableName;
+
+	/**
+	 * DB Class that will be used for interacting with the database
+	 * @var DB
+	 */
+	protected $dbal;
+
+	public function __construct(DB $dbal)
+	{
+		$this->setDbal($dbal);
+	}
 
 	/**
 	 * Returns a list of properties
@@ -101,7 +113,7 @@ class Provider implements ProviderInterface
 	 */
 	public function getQuery()
 	{
-		return new Query($this);
+		return new Query($this, $this->getDbal());
 	}
 
 	/**
@@ -120,5 +132,33 @@ class Provider implements ProviderInterface
 		}
 
 		return $this->tableName;
+	}
+
+	/**
+	 * Sets the DB instance to use to generate queries
+	 *
+	 * @param DB $dbal
+	 *
+	 * @return $this
+	 *
+	 * @since 2.0
+	 */
+	public function setDbal($dbal)
+	{
+		$this->dbal = $dbal;
+
+		return $this;
+	}
+
+	/**
+	 * Gets the DB instance that this provider will use
+	 *
+	 * @return DB
+	 *
+	 * @since 2.0
+	 */
+	public function getDbal()
+	{
+		return $this->dbal;
 	}
 }

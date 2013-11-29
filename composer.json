@@ -13,7 +13,8 @@
 	],
 	"require": {
 		"php": ">=5.4",
-		"fuelphp/common": "dev-master"
+		"fuelphp/common": "dev-master",
+        "fuelphp/database": "dev-master"
 	},
 	"require-dev": {
 		"mockery/mockery": "0.7.*"

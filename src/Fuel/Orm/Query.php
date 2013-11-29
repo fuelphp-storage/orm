@@ -10,6 +10,8 @@
 
 namespace Fuel\Orm;
 
+use Fuel\Database\DB;
+
 /**
  * Allows Providers to interact with the database
  *
@@ -25,7 +27,13 @@ class Query
 	 */
 	protected $provider;
 
-	public function __construct(ProviderInterface $provider)
+	/**
+	 * @param ProviderInterface $provider Provider that owns this Query
+	 * @param DB                $db       DB class to interact with the database
+	 *
+	 * @since 2.0
+	 */
+	public function __construct(ProviderInterface $provider, DB $db)
 	{
 		$this->setProvider($provider);
 	}

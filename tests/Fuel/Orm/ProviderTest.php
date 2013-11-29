@@ -29,7 +29,9 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 
 	protected function setUp()
 	{
-		$this->object = new \ProviderStub();
+		$db = \Mockery::mock('Fuel\Database\DB');
+
+		$this->object = new \ProviderStub($db);
 	}
 
 	/**
