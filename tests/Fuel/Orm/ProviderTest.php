@@ -168,4 +168,14 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @coversDefaultClass __call
+	 * @expectedException  \LogicException
+	 * @group              Orm
+	 */
+	public function testMagicNotFound()
+	{
+		$this->object->foobar();
+	}
+
 }
