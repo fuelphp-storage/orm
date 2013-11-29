@@ -10,6 +10,8 @@
 
 namespace Fuel\Orm;
 
+use Fuel\Database\DB;
+
 /**
  * Defines a common interface for classes that define models
  *
@@ -57,4 +59,13 @@ interface ProviderInterface
 	 * @since 2.0
 	 */
 	public function getTableName();
+
+	/**
+	 * Gets the DB instance that this provider will use
+	 *
+	 * @return DB
+	 *
+	 * @since 2.0
+	 */
+	public function getDbal();
 }

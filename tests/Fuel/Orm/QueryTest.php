@@ -29,9 +29,8 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 	public function testGetSetProvider()
 	{
 		$provider = \Mockery::mock('Fuel\Orm\ProviderInterface');
-		$db = \Mockery::mock('Fuel\Database\DB');
 
-		$object = new Query($provider, $db);
+		$object = new Query($provider);
 
 		$this->assertEquals(
 			$provider,

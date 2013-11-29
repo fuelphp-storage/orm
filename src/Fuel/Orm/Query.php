@@ -29,11 +29,10 @@ class Query
 
 	/**
 	 * @param ProviderInterface $provider Provider that owns this Query
-	 * @param DB                $db       DB class to interact with the database
 	 *
 	 * @since 2.0
 	 */
-	public function __construct(ProviderInterface $provider, DB $db)
+	public function __construct(ProviderInterface $provider)
 	{
 		$this->setProvider($provider);
 	}

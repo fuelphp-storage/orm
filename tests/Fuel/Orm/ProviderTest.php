@@ -10,7 +10,8 @@
 
 namespace Fuel\Orm;
 
-require __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'stubs'.DIRECTORY_SEPARATOR.'ProviderStub.php';
+require_once __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'stubs'.DIRECTORY_SEPARATOR.'ProviderStub.php';
+require_once __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'stubs'.DIRECTORY_SEPARATOR.'ProviderReadableStub.php';
 
 /**
  * Tests for Provider
@@ -139,6 +140,31 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(
 			$name,
 			$this->object->getTableName()
+		);
+	}
+
+	/**
+	 * @coversDefaultClass __call
+	 * @group              Orm
+	 */
+	public function testMagicBehaviorTest()
+	{
+		$this->assertFalse(
+			$this->object->isReadable()
+		);
+	}
+
+	/**
+	 * @coversDefaultClass __call
+	 * @group              Orm
+	 */
+	public function testMagicBehaviorPositive()
+	{
+		$db = \Mockery::mock('Fuel\Database\DB');
+		$object = new \ProviderReadableStub($db);
+
+		$this->assertTrue(
+			$object->isReadable()
 		);
 	}
 
