@@ -10,8 +10,6 @@
 
 namespace Fuel\Orm;
 
-use Fuel\Database\DB;
-
 /**
  * Allows Providers to interact with the database
  *
@@ -19,23 +17,16 @@ use Fuel\Database\DB;
  * @author  Fuel Development Team
  * @since   2.0
  */
-class Query implements QueryInterface
+interface QueryInterface
 {
-
 	/**
-	 * @var ProviderInterface
-	 */
-	protected $provider;
-
-	/**
-	 * @param ProviderInterface $provider Provider that owns this Query
+	 * Gets the provider that this Query belongs to
+	 *
+	 * @return ProviderInterface
 	 *
 	 * @since 2.0
 	 */
-	public function __construct(ProviderInterface $provider)
-	{
-		$this->setProvider($provider);
-	}
+	public function getProvider();
 
 	/**
 	 * Sets the provider that this Query belongs to
@@ -46,24 +37,7 @@ class Query implements QueryInterface
 	 *
 	 * @since 2.0
 	 */
-	public function setProvider(ProviderInterface $provider)
-	{
-		$this->provider = $provider;
-
-		return $this;
-	}
-
-	/**
-	 * Gets the provider that this Query belongs to
-	 *
-	 * @return ProviderInterface
-	 *
-	 * @since 2.0
-	 */
-	public function getProvider()
-	{
-		return $this->provider;
-	}
+	public function setProvider(ProviderInterface $provider);
 
 	/**
 	 * Inserts a model or number of models
@@ -74,10 +48,7 @@ class Query implements QueryInterface
 	 *
 	 * @since 2.0
 	 */
-	public function insert($models)
-	{
-		// TODO: Implement insert() method.
-	}
+	public function insert($models);
 
 	/**
 	 * Deletes a model or number of models
@@ -88,10 +59,7 @@ class Query implements QueryInterface
 	 *
 	 * @since 2.0
 	 */
-	public function delete($models)
-	{
-		// TODO: Implement delete() method.
-	}
+	public function delete($models);
 
 	/**
 	 * Fetches a model or number of models
@@ -100,10 +68,7 @@ class Query implements QueryInterface
 	 *
 	 * @since 2.0
 	 */
-	public function select()
-	{
-		// TODO: Implement select() method.
-	}
+	public function select();
 
 	/**
 	 * Executes the prepared query
@@ -112,10 +77,7 @@ class Query implements QueryInterface
 	 *
 	 * @since 2.0
 	 */
-	public function execute()
-	{
-		// TODO: Implement execute() method.
-	}
+	public function execute();
 
 	/**
 	 * Updates a model or number of models
@@ -126,9 +88,5 @@ class Query implements QueryInterface
 	 *
 	 * @since 2.0
 	 */
-	public function update($models)
-	{
-		// TODO: Implement update() method.
-	}
-
+	public function update($models);
 }

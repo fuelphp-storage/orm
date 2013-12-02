@@ -45,7 +45,7 @@ interface ProviderInterface
 	/**
 	 * Gets a Query object that can be used to interact with the provider's table
 	 *
-	 * @return Query
+	 * @return QueryInterface
 	 *
 	 * @since 2.0
 	 */

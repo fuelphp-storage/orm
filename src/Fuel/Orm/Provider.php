@@ -113,7 +113,7 @@ abstract class Provider implements ProviderInterface
 	/**
 	 * Gets a Query object that can be used to interact with this provider's table
 	 *
-	 * @return Query
+	 * @return QueryInterface
 	 *
 	 * @since 2.0
 	 */
@@ -126,6 +126,8 @@ abstract class Provider implements ProviderInterface
 	 * Gets the name of the table assigned to this Provider
 	 *
 	 * @return string
+	 *
+	 * @throws RuntimeException If there is no specified table name
 	 *
 	 * @since 2.0
 	 */
@@ -173,6 +175,10 @@ abstract class Provider implements ProviderInterface
 	 *
 	 * @param string $name
 	 * @param mixed  $args
+	 *
+	 * @returns bool
+	 *
+	 * @throws LogicException If the method does not exist
 	 *
 	 * @since 2.0
 	 */
