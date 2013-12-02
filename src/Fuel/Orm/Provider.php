@@ -170,35 +170,4 @@ abstract class Provider implements ProviderInterface
 		return $this->dbal;
 	}
 
-	/**
-	 * Magic method to be able to check if interfaces have been implemented
-	 *
-	 * @param string $name
-	 * @param mixed  $args
-	 *
-	 * @returns bool
-	 *
-	 * @throws LogicException If the method does not exist
-	 *
-	 * @since 2.0
-	 */
-	public function __call($name, $args)
-	{
-		// If the name starts with an "is" we can check for interfaces
-		if (strpos($name, 'is') === 0)
-		{
-			// get the name of the interface
-			$interfaceName = substr($name, 2);
-
-			$classInterfaces = class_implements(get_called_class());
-
-			// TODO: Make it so you can use behaviours from anywhere
-			// Return true/false if that exists or not
-			return in_array('Fuel\Orm\Behaviour\\'.$interfaceName.'Interface', $classInterfaces);
-		}
-
-		// TODO: make this translatable
-		throw new LogicException('No such method '.$name);
-	}
-
 }

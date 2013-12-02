@@ -143,39 +143,4 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @coversDefaultClass __call
-	 * @group              Orm
-	 */
-	public function testMagicBehaviorTest()
-	{
-		$this->assertFalse(
-			$this->object->isReadable()
-		);
-	}
-
-	/**
-	 * @coversDefaultClass __call
-	 * @group              Orm
-	 */
-	public function testMagicBehaviorPositive()
-	{
-		$db = \Mockery::mock('Fuel\Database\Connection');
-		$object = new \ProviderReadableStub($db);
-
-		$this->assertTrue(
-			$object->isReadable()
-		);
-	}
-
-	/**
-	 * @coversDefaultClass __call
-	 * @expectedException  \LogicException
-	 * @group              Orm
-	 */
-	public function testMagicNotFound()
-	{
-		$this->object->foobar();
-	}
-
 }
