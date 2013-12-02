@@ -10,7 +10,7 @@
 
 namespace Fuel\Orm;
 
-use Fuel\Database\DB;
+use Fuel\Database\Connection;
 use LogicException;
 use RuntimeException;
 
@@ -48,12 +48,12 @@ abstract class Provider implements ProviderInterface
 	protected $tableName;
 
 	/**
-	 * DB Class that will be used for interacting with the database
-	 * @var DB
+	 * Connection class that will be used for interacting with the database
+	 * @var Connection
 	 */
 	protected $dbal;
 
-	public function __construct(DB $dbal)
+	public function __construct(Connection $dbal)
 	{
 		$this->setDbal($dbal);
 	}
@@ -145,13 +145,13 @@ abstract class Provider implements ProviderInterface
 	/**
 	 * Sets the DB instance to use to generate queries
 	 *
-	 * @param DB $dbal
+	 * @param Connection $dbal
 	 *
 	 * @return $this
 	 *
 	 * @since 2.0
 	 */
-	public function setDbal($dbal)
+	public function setDbal(Connection $dbal)
 	{
 		$this->dbal = $dbal;
 
@@ -161,7 +161,7 @@ abstract class Provider implements ProviderInterface
 	/**
 	 * Gets the DB instance that this provider will use
 	 *
-	 * @return DB
+	 * @return Connection
 	 *
 	 * @since 2.0
 	 */

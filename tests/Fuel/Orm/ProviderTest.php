@@ -30,7 +30,7 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 
 	protected function setUp()
 	{
-		$db = \Mockery::mock('Fuel\Database\DB');
+		$db = \Mockery::mock('Fuel\Database\Connection');
 
 		$this->object = new \ProviderStub($db);
 	}
@@ -160,7 +160,7 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testMagicBehaviorPositive()
 	{
-		$db = \Mockery::mock('Fuel\Database\DB');
+		$db = \Mockery::mock('Fuel\Database\Connection');
 		$object = new \ProviderReadableStub($db);
 
 		$this->assertTrue(
