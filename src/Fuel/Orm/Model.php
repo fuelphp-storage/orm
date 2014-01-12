@@ -82,8 +82,7 @@ class Model extends DataContainer implements ModelInterface
 	{
 		if ( ! is_bool($status))
 		{
-			// TODO: Make this translatable
-			throw new \InvalidArgumentException('The isNew status must be boolean');
+			throw new \InvalidArgumentException('ORM-001: The isNew status must be boolean');
 		}
 
 		$this->isNew = $status;

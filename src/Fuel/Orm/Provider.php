@@ -103,8 +103,7 @@ abstract class Provider implements ProviderInterface
 	{
 		if ( ! in_array('Fuel\Orm\ModelInterface', class_implements($this->modelClass)))
 		{
-			// TODO: make this translatable
-			throw new RuntimeException('The given model class must implement ModelInterface');
+			throw new RuntimeException('ORM-002: The given model class must implement ModelInterface');
 		}
 
 		return $this->modelClass;
@@ -135,8 +134,7 @@ abstract class Provider implements ProviderInterface
 	{
 		if ($this->tableName === null)
 		{
-			// TODO: Make this translatable
-			throw new RuntimeException('No table name specified for '.get_class());
+			throw new RuntimeException('ORM-003: No table name specified for [' . get_class() . ']');
 		}
 
 		return $this->tableName;
