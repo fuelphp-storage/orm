@@ -20,11 +20,6 @@ use RuntimeException;
  * @package Fuel\Orm
  * @author  Fuel Development Team
  * @since   2.0
- *
- * @method isReadable
- * @method isCreatable
- * @method isDestroyable
- * @method isMutable
  */
 abstract class Provider implements ProviderInterface
 {
@@ -39,7 +34,13 @@ abstract class Provider implements ProviderInterface
 	 * Contains the full name of the class that this provider will use for models
 	 * @var string
 	 */
-	protected $modelClass = '\Fuel\Orm\Model';
+	protected $modelClass = 'Fuel\Orm\Model';
+
+	/**
+	 * Contains the full name of the class that this provider will use for model collections
+	 * @var string
+	 */
+	protected $modelCollectionClass = 'Fuel\Orm\ModelCollection';
 
 	/**
 	 * Contains the name of the table this Provider will interact with
@@ -90,6 +91,16 @@ abstract class Provider implements ProviderInterface
 		return $instance;
 	}
 
+	public function forgeModelCollectionInstance()
+	{
+		$class = $this->getModelCollectionClass();
+
+		/** @var ModelCollection $instance */
+		$instance = new $class;
+
+		return $instance;
+	}
+
 	/**
 	 * Gets the class name of the model that this provider will create.
 	 *
@@ -107,6 +118,18 @@ abstract class Provider implements ProviderInterface
 		}
 
 		return $this->modelClass;
+	}
+
+	/**
+	 * Gets the class name of the model collection that this provider will use
+	 *
+	 * @return string
+	 *
+	 * @since 2.0
+	 */
+	public function getModelCollectionClass()
+	{
+		return $this->modelCollectionClass;
 	}
 
 	/**

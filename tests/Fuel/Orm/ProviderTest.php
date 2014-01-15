@@ -82,7 +82,7 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 	public function testGetModelClass()
 	{
 		$this->assertEquals(
-			'\Fuel\Orm\Model',
+			'Fuel\Orm\Model',
 			$this->object->getModelClass()
 		);
 	}
@@ -97,6 +97,26 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 		$this->object->setModelClass('\stdClass');
 
 		$this->object->getModelClass();
+	}
+
+	/**
+	 * @coversDefaultClass getModelCollectionClass
+	 * @group              Orm
+	 */
+	public function testGetModelCollectionClass()
+	{
+		$this->assertEquals(
+			'Fuel\Orm\ModelCollection',
+			$this->object->getModelCollectionClass()
+		);
+	}
+
+	public function testGetModelCollectionInstance()
+	{
+		$this->assertInstanceOf(
+			'Fuel\Orm\ModelCollection',
+			$this->object->forgeModelCollectionInstance()
+		);
 	}
 
 	/**

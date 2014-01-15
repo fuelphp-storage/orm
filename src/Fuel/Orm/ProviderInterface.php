@@ -68,4 +68,5 @@ interface ProviderInterface
 	 * @since 2.0
 	 */
 	public function getDbal();
+
 }
