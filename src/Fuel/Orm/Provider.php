@@ -11,7 +11,6 @@
 namespace Fuel\Orm;
 
 use Fuel\Database\Connection;
-use LogicException;
 use RuntimeException;
 
 /**
