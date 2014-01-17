@@ -73,6 +73,8 @@ class Builder
 	}
 
 	/**
+	 * Gets an alias for the given property
+	 *
 	 * @param $property string
 	 *
 	 * @return mixed
@@ -83,21 +85,23 @@ class Builder
 	{
 		if ( ! array_key_exists($property, $this->aliases))
 		{
-			$this->createTableAlias($property);
+			$this->createPropertyAlias($property);
 		}
 
 		return $this->aliases[$property];
 	}
 
 	/**
+	 * Creates an alias for a given property
+	 *
 	 * @param $property string
 	 *
 	 * @since 2.0
 	 */
-	protected function createTableAlias($property)
+	protected function createPropertyAlias($property)
 	{
 		$this->aliases[$property] = $this->getTableAlias() . '.c' . $this->nextAliasNumber;
-		$this->nextAliasNumber ++;
+		$this->nextAliasNumber++;
 	}
 
 }
