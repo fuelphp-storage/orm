@@ -21,6 +21,19 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 {
 
 	/**
+	 * Gets an instance of a new Query along with a mocked ProviderInterface
+	 * @return array [Query, ProviderInterface]
+	 */
+	protected function getInstance()
+	{
+		/** @var ProviderInterface $provider */
+		$provider = \Mockery::mock('Fuel\Orm\ProviderInterface');
+		$object = new Query($provider);
+
+		return [$object, $provider];
+	}
+
+	/**
 	 * @coversDefaultClass setProvider
 	 * @coversDefaultClass getProvider
 	 * @coversDefaultClass __construct
@@ -28,9 +41,9 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testGetSetProvider()
 	{
-		$provider = \Mockery::mock('Fuel\Orm\ProviderInterface');
-
-		$object = new Query($provider);
+		/** @var Query $object */
+		/** @var ProviderInterface $provider */
+		list ($object, $provider) = $this->getInstance();
 
 		$this->assertEquals(
 			$provider,

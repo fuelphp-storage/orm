@@ -10,8 +10,6 @@
 
 namespace Fuel\Orm;
 
-use Fuel\Database\DB;
-
 /**
  * Allows Providers to interact with the database
  *
