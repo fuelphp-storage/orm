@@ -19,7 +19,7 @@ use Fuel\Common\DataContainer;
  * @author  Fuel Development Team
  * @since   2.0
  */
-class ModelCollection extends DataContainer
+class ModelCollection extends DataContainer implements ModelCollectionInterface
 {
 
 	/**

@@ -21,7 +21,7 @@ class ModelCollectionTest extends \PHPUnit_Framework_TestCase
 {
 
 	/**
-	 * @var ModelCollection
+	 * @var ModelCollectionInterface
 	 */
 	protected $object;
 

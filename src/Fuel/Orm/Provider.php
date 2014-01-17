@@ -93,7 +93,7 @@ abstract class Provider implements ProviderInterface
 	/**
 	 * Creates a new instance of the Provider's ModelCollection
 	 *
-	 * @return ModelCollection
+	 * @return ModelCollectionInterface
 	 *
 	 * @since 2.0
 	 */
@@ -101,7 +101,7 @@ abstract class Provider implements ProviderInterface
 	{
 		$class = $this->getModelCollectionClass();
 
-		/** @var ModelCollection $instance */
+		/** @var ModelCollectionInterface $instance */
 		$instance = new $class;
 
 		return $instance;
