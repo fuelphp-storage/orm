@@ -47,6 +47,10 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @coversDefaultClass getPropertyAlias
+	 * @group              Orm
+	 */
 	public function testGetPropertyAlias()
 	{
 		$tableAlias = $this->object->getTableAlias();
