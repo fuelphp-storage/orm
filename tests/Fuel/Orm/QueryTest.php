@@ -60,4 +60,46 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @coversDefaultClass getTableAlias
+	 * @group              Orm
+	 */
+	public function testGetTableAlias()
+	{
+		/** @var Query $object */
+		list ($object) = $this->getInstance();
+
+		$this->assertEquals(
+			't0',
+			$object->getTableAlias()
+		);
+	}
+
+	/**
+	 * @coversDefaultClass getPropertyAlias
+	 * @group              Orm
+	 */
+	public function testGetPropertyAlias()
+	{
+		/** @var Query $object */
+		list ($object) = $this->getInstance();
+
+		$tableAlias = $object->getTableAlias();
+
+		$this->assertEquals(
+			$tableAlias . '.c0',
+			$object->getPropertyAlias('one')
+		);
+
+		$this->assertEquals(
+			$tableAlias . '.c1',
+			$object->getPropertyAlias('two')
+		);
+
+		$this->assertEquals(
+			$tableAlias . '.c0',
+			$object->getPropertyAlias('one')
+		);
+	}
+
 }

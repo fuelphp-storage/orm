@@ -26,6 +26,18 @@ class Query implements QueryInterface
 	protected $provider;
 
 	/**
+	 * @var array
+	 */
+	protected $aliases = [];
+
+	/**
+	 * Contains the next alias number to use for properties
+	 *
+	 * @var int
+	 */
+	protected $nextAliasNumber = 0;
+
+	/**
 	 * @param ProviderInterface $provider Provider that owns this Query
 	 *
 	 * @since 2.0
@@ -127,6 +139,51 @@ class Query implements QueryInterface
 	public function update($models)
 	{
 		// TODO: Implement update() method.
+	}
+
+	/**
+	 * Returns the alias that will be used for the Provider's table
+	 *
+	 * @return string
+	 *
+	 * @since 2.0
+	 */
+	public function getTableAlias()
+	{
+		// TODO: make this aware of when multiple tables are in play
+		return 't0';
+	}
+
+	/**
+	 * Gets an alias for the given property
+	 *
+	 * @param $property string
+	 *
+	 * @return mixed
+	 *
+	 * @since 2.0
+	 */
+	public function getPropertyAlias($property)
+	{
+		if ( ! array_key_exists($property, $this->aliases))
+		{
+			$this->createPropertyAlias($property);
+		}
+
+		return $this->aliases[$property];
+	}
+
+	/**
+	 * Creates an alias for a given property
+	 *
+	 * @param $property string
+	 *
+	 * @since 2.0
+	 */
+	protected function createPropertyAlias($property)
+	{
+		$this->aliases[$property] = $this->getTableAlias() . '.c' . $this->nextAliasNumber;
+		$this->nextAliasNumber++;
 	}
 
 }
