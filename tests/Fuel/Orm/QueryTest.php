@@ -10,6 +10,8 @@
 
 namespace Fuel\Orm;
 
+use Mockery\Mock;
+
 /**
  * Tests for Query
  *
@@ -99,6 +101,64 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(
 			$tableAlias . '.c0',
 			$object->getPropertyAlias('one')
+		);
+	}
+
+	/**
+	 * @coversDefaultGroup select
+	 * @coversDefaultGroup getCurrentQuery
+	 * @group              Orm
+	 */
+	public function testSelect()
+	{
+		/** @var Query $object */
+		/** @var Mock $provider */
+		list ($object, $provider) = $this->getInstance();
+
+		$tableName = 'table';
+		$properties = [
+			'a' => 'a',
+			'b' => 'b',
+			'c' => 'c',
+		];
+
+		// Create a new DBAL mock
+		$dbal = \Mockery::mock('Fuel\Database\Connection');
+
+		// Set up our provider Mock
+		$provider->shouldReceive('getDbal')
+			->once()
+			->andReturn($dbal);
+
+		$provider->shouldReceive('getProperties')
+			->once()
+			->andReturn($properties);
+
+		$provider->shouldReceive('getTableName')
+			->once()
+			->andReturn($tableName);
+
+		// Set up our DBAL mock
+		$dbal->shouldReceive('select')
+			->with($properties)
+			->once()
+			->andReturn($dbal);
+
+		$dbal->shouldReceive('from')
+			->with($tableName)
+			->once()
+			->andReturn($dbal);
+
+		// Make sure it's blank to start with
+		$this->assertNull($object->getCurrentQuery());
+
+		// Perform the call to select to test the above
+		$object->select();
+
+		// Make sure our current query is set
+		$this->assertEquals(
+			 $dbal,
+			 $object->getCurrentQuery()
 		);
 	}
 

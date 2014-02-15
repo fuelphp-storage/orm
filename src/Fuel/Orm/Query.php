@@ -10,6 +10,9 @@
 
 namespace Fuel\Orm;
 
+use Fuel\Orm\Observer\SubjectInterface;
+use Fuel\Orm\Observer\SubjectTrait;
+
 /**
  * Allows Providers to interact with the database
  *
@@ -17,8 +20,10 @@ namespace Fuel\Orm;
  * @author  Fuel Development Team
  * @since   2.0
  */
-class Query implements QueryInterface
+class Query implements QueryInterface, SubjectInterface
 {
+
+	use SubjectTrait;
 
 	/**
 	 * @var ProviderInterface
@@ -36,6 +41,13 @@ class Query implements QueryInterface
 	 * @var int
 	 */
 	protected $nextAliasNumber = 0;
+
+	/**
+	 * Contains the query currently being constructed
+	 *
+	 * @var \Fuel\Database\Collector
+	 */
+	protected $currentQuery;
 
 	/**
 	 * @param ProviderInterface $provider Provider that owns this Query
@@ -112,7 +124,18 @@ class Query implements QueryInterface
 	 */
 	public function select()
 	{
-		// TODO: Implement select() method.
+		$provider = $this->getProvider();
+
+		$columns = $provider->getProperties();
+
+		$tableName = $provider->getTableName();
+
+		$dbal = $provider->getDbal();
+
+		$this->currentQuery = $dbal->select($columns)
+			->from($tableName);
+
+		return $this;
 	}
 
 	/**
@@ -125,6 +148,32 @@ class Query implements QueryInterface
 	public function execute()
 	{
 		// TODO: Implement execute() method.
+	}
+
+	/**
+	 * Resets the currently built query
+	 *
+	 * @return $this
+	 *
+	 * @since 2.0
+	 */
+	public function reset()
+	{
+		$this->currentQuery = null;
+
+		return $this;
+	}
+
+	/**
+	 * Gets the query currently being constructed
+	 *
+	 * @return \Fuel\Database\Collector
+	 *
+	 * @since 2.0
+	 */
+	public function getCurrentQuery()
+	{
+		return $this->currentQuery;
 	}
 
 	/**
