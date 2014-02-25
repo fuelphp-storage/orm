@@ -162,4 +162,37 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @coversDefaultClass hydrate
+	 * @group              Orm
+	 */
+	public function testHydrate()
+	{
+		$age = 32;
+		$name = 'My Name';
+
+		$modelData = [
+			'name' => $name,
+			'age' => $age,
+		];
+
+		/** @var ModelInterface $result */
+		$result = $this->object->hydrate([$modelData]);
+
+		$this->assertInstanceOf(
+			'Fuel\Orm\ModelInterface',
+			$result
+		);
+
+		$this->assertEquals(
+			$age,
+			$result->age
+		);
+
+		$this->assertEquals(
+			$name,
+			$result->name
+		);
+	}
+
 }

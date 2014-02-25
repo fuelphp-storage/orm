@@ -91,6 +91,32 @@ abstract class Provider implements ProviderInterface
 	}
 
 	/**
+	 * Creates model instances from assorted data
+	 *
+	 * @param array $data
+	 *
+	 * @return ModelCollectionInterface|ModelInterface
+	 *
+	 * @since 2.0
+	 */
+	public function hydrate($data)
+	{
+		$models = [];
+
+		foreach ($data as $modelData)
+		{
+			$models[] = $this->forgeModelInstance($modelData);
+		}
+
+		if (count($models) == 1)
+		{
+			return $models[0];
+		}
+
+		// TODO: make sure a collection is returned if needed
+	}
+
+	/**
 	 * Creates a new instance of the Provider's ModelCollection
 	 *
 	 * @return ModelCollectionInterface

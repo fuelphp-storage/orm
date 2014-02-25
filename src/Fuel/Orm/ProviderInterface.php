@@ -43,6 +43,17 @@ interface ProviderInterface
 	public function forgeModelInstance($data = []);
 
 	/**
+	 * Creates model instances from assorted data
+	 *
+	 * @param array $data Data to create models from
+	 *
+	 * @return ModelInterface|ModelCollectionInterface
+	 *
+	 * @since 2.0
+	 */
+	public function hydrate($data);
+
+	/**
 	 * Gets a Query object that can be used to interact with the provider's table
 	 *
 	 * @return QueryInterface

@@ -67,4 +67,28 @@ interface ModelInterface
 	 * @since 2.0
 	 */
 	public function getOriginalData();
+
+	/**
+	 * Magic getter to allow for easy property access
+	 *
+	 * @param string $key
+	 *
+	 * @return mixed
+	 *
+	 * @since  2.0
+	 */
+	public function __get($key);
+
+	/**
+	 * Magic setter to allow for easy property assignment
+	 *
+	 * @param string $key
+	 * @param mixed  $value
+	 *
+	 * @return mixed
+	 *
+	 * @since 2.0
+	 */
+	public function __set($key, $value);
+
 }

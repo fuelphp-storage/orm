@@ -87,4 +87,30 @@ class ModelTest extends \PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @coversDefaultClass __construct
+	 * @coversDefaultClass getOriginalData
+	 * @group              Orm
+	 */
+	public function testConstructWithData()
+	{
+		$name = 'Test Model';
+
+		$data = [
+			'name' => $name,
+		];
+
+		$object = new Model($data);
+
+		$this->assertEquals(
+			$data,
+			$object->getOriginalData()->getContents()
+		);
+
+		$this->assertEquals(
+			$name,
+			$object->name
+		);
+	}
+
 }

@@ -50,6 +50,13 @@ class Query implements QueryInterface, SubjectInterface
 	protected $currentQuery;
 
 	/**
+	 * Is set to true if the query result will need hydration or not. Used for select() queries.
+	 *
+	 * @var bool
+	 */
+	protected $resultNeedsHydration = false;
+
+	/**
 	 * @param ProviderInterface $provider Provider that owns this Query
 	 *
 	 * @since 2.0
@@ -124,6 +131,8 @@ class Query implements QueryInterface, SubjectInterface
 	 */
 	public function select()
 	{
+		$this->resultNeedsHydration = true;
+
 		$provider = $this->getProvider();
 
 		$columns = $provider->getProperties();
@@ -141,13 +150,22 @@ class Query implements QueryInterface, SubjectInterface
 	/**
 	 * Executes the prepared query
 	 *
-	 * @return bool|array|ModelInterface
+	 * @return ModelInterface|ModelCollectionInterface|null
 	 *
 	 * @since 2.0
 	 */
 	public function execute()
 	{
-		// TODO: Implement execute() method.
+		$result = $this->currentQuery->execute();
+
+		if ($this->resultNeedsHydration)
+		{
+			return $this->getProvider()
+				->hydrate($result);
+		}
+
+		// Not directly needed but added for clarity
+		return null;
 	}
 
 	/**
