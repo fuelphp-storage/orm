@@ -119,7 +119,16 @@ class Query implements QueryInterface, SubjectInterface
 	 */
 	public function delete($models)
 	{
-		// TODO: Implement delete() method.
+		$provider = $this->getProvider();
+
+		$tableName = $provider->getTableName();
+
+		$dbal = $provider->getDbal();
+
+		// TODO: Use the list of models to delete only the given entities
+		$this->currentQuery = $dbal->delete($tableName);
+
+		return $this;
 	}
 
 	/**
