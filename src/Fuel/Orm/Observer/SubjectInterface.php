@@ -25,6 +25,8 @@ interface SubjectInterface
 	 * @param ObserverInterface $observer
 	 * @param string|string[]   $events
 	 *
+	 * @return void
+	 *
 	 * @since 2.0
 	 */
 	public function attach(ObserverInterface $observer, $events);

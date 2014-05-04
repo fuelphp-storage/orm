@@ -85,7 +85,7 @@ interface ModelInterface
 	 * @param string $key
 	 * @param mixed  $value
 	 *
-	 * @return mixed
+	 * @return void
 	 *
 	 * @since 2.0
 	 */

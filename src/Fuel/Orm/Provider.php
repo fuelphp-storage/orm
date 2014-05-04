@@ -173,7 +173,7 @@ abstract class Provider implements ProviderInterface
 	 */
 	public function getQuery()
 	{
-		return new Query($this, $this->getDbal());
+		return new Query($this);
 	}
 
 	/**

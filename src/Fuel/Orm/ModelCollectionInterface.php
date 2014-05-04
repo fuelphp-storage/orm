@@ -23,16 +23,19 @@ interface ModelCollectionInterface
 	/**
 	 * Get a key's value from this bag's data
 	 *
-	 * @param   string $key
-	 * @param   mixed  $default
+	 * @param string $key
+	 * @param mixed  $default
 	 *
-	 * @return  mixed
+	 * @return mixed
+	 *
 	 * @since   2.0.0
 	 */
 	public function get($key, $default = null);
 
 	/**
 	 * @param string $modelClass
+	 *
+	 * @return void
 	 *
 	 * @since 2.0
 	 *
