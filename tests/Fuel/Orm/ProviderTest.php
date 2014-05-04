@@ -17,7 +17,8 @@ require_once __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY
  *
  * @package Fuel\Orm
  * @author  Fuel Development Team
- * @covers  Fuel\Orm\Provider
+ *
+ * @coversDefaultClass Fuel\Orm\Provider
  */
 class ProviderTest extends \PHPUnit_Framework_TestCase
 {
@@ -35,8 +36,8 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @coversDefaultClass getProperties
-	 * @group              Orm
+	 * @covers ::getProperties
+	 * @group  Orm
 	 */
 	public function testGetProperties()
 	{
@@ -47,8 +48,8 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @coversDefaultClass forgeModelInstance
-	 * @group              Orm
+	 * @covers ::forgeModelInstance
+	 * @group  Orm
 	 */
 	public function testGetModel()
 	{
@@ -75,8 +76,8 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @coversDefaultClass getModelClass
-	 * @group              Orm
+	 * @covers ::getModelClass
+	 * @group  Orm
 	 */
 	public function testGetModelClass()
 	{
@@ -87,9 +88,9 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @coversDefaultClass getModelClass
-	 * @expectedException  \RuntimeException
-	 * @group              Orm
+	 * @covers            ::getModelClass
+	 * @expectedException \RuntimeException
+	 * @group             Orm
 	 */
 	public function testGetModelClassInvalid()
 	{
@@ -99,8 +100,8 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @coversDefaultClass getModelCollectionClass
-	 * @group              Orm
+	 * @covers ::getModelCollectionClass
+	 * @group  Orm
 	 */
 	public function testGetModelCollectionClass()
 	{
@@ -110,6 +111,10 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers ::forgeModelCollectionInstance
+	 * @group  Orm
+	 */
 	public function testGetModelCollectionInstance()
 	{
 		$this->assertInstanceOf(
@@ -119,8 +124,8 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @coversDefaultClass getQuery
-	 * @group              Orm
+	 * @covers ::getQuery
+	 * @group  Orm
 	 */
 	public function testGetQuery()
 	{
@@ -138,9 +143,9 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @coversDefaultClass getTableName
-	 * @expectedException  \RuntimeException
-	 * @group              Orm
+	 * @covers            ::getTableName
+	 * @expectedException \RuntimeException
+	 * @group             Orm
 	 */
 	public function testGetTableNameInvalid()
 	{
@@ -148,8 +153,8 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @coversDefaultClass getTableName
-	 * @group              Orm
+	 * @covers ::getTableName
+	 * @group  Orm
 	 */
 	public function testGetTableName()
 	{
@@ -163,8 +168,8 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @coversDefaultClass hydrate
-	 * @group              Orm
+	 * @covers ::hydrate
+	 * @group  Orm
 	 */
 	public function testHydrate()
 	{

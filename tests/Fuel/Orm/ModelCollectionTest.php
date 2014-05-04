@@ -15,7 +15,8 @@ namespace Fuel\Orm;
  *
  * @package Fuel\Orm
  * @author  Fuel Development Team
- * @covers  Fuel\Orm\ModelCollection
+ *
+ * @coversDefaultClass Fuel\Orm\ModelCollection
  */
 class ModelCollectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -31,8 +32,8 @@ class ModelCollectionTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @coversDefaultClass getModelClass
-	 * @group              Orm
+	 * @covers ::getModelClass
+	 * @group  Orm
 	 */
 	public function testGetDefaultClass()
 	{
@@ -43,9 +44,9 @@ class ModelCollectionTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @coversDefaultClass getModelClass
-	 * @coversDefaultClass setModelClass
-	 * @group              Orm
+	 * @covers ::getModelClass
+	 * @covers ::setModelClass
+	 * @group  Orm
 	 */
 	public function testGetSetDefaultClass()
 	{
@@ -60,9 +61,9 @@ class ModelCollectionTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @coversDefaultClass setModelClass
-	 * @expectedException  \InvalidArgumentException
-	 * @group              Orm
+	 * @covers            ::setModelClass
+	 * @expectedException \InvalidArgumentException
+	 * @group             Orm
 	 */
 	public function testSetInvalidDefaultClass()
 	{
@@ -70,8 +71,8 @@ class ModelCollectionTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @coversDefaultClass set
-	 * @group              Orm
+	 * @covers ::set
+	 * @group  Orm
 	 */
 	public function testSetModel()
 	{
@@ -86,9 +87,9 @@ class ModelCollectionTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @coversDefaultClass set
-	 * @expectedException  \InvalidArgumentException
-	 * @group              Orm
+	 * @covers            ::set
+	 * @expectedException \InvalidArgumentException
+	 * @group             Orm
 	 */
 	public function testSetWithNonObject()
 	{
@@ -96,9 +97,9 @@ class ModelCollectionTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @coversDefaultClass set
-	 * @expectedException  \InvalidArgumentException
-	 * @group              Orm
+	 * @covers            ::set
+	 * @expectedException \InvalidArgumentException
+	 * @group             Orm
 	 */
 	public function testSetWithInvalidObject()
 	{
@@ -106,10 +107,10 @@ class ModelCollectionTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @coversDefaultClass setModelClass
-	 * @coversDefaultClass set
-	 * @coversDefaultClass get
-	 * @group              Orm
+	 * @covers ::setModelClass
+	 * @covers ::set
+	 * @covers ::get
+	 * @group  Orm
 	 */
 	public function testSetWithAlternateClassName()
 	{

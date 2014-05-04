@@ -17,7 +17,8 @@ use Mockery\Mock;
  *
  * @package Fuel\Orm
  * @author  Fuel Development Team
- * @covers  Fuel\Orm\Query
+ *
+ * @coversDefaultClass Fuel\Orm\Query
  */
 class QueryTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,10 +37,10 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @coversDefaultClass setProvider
-	 * @coversDefaultClass getProvider
-	 * @coversDefaultClass __construct
-	 * @group              Orm
+	 * @covers ::setProvider
+	 * @covers ::getProvider
+	 * @covers ::__construct
+	 * @group  Orm
 	 */
 	public function testGetSetProvider()
 	{
@@ -63,8 +64,8 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @coversDefaultClass getTableAlias
-	 * @group              Orm
+	 * @covers ::getTableAlias
+	 * @group  Orm
 	 */
 	public function testGetTableAlias()
 	{
@@ -78,8 +79,8 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @coversDefaultClass getPropertyAlias
-	 * @group              Orm
+	 * @covers ::getPropertyAlias
+	 * @group  Orm
 	 */
 	public function testGetPropertyAlias()
 	{
@@ -105,9 +106,9 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @coversDefaultGroup select
-	 * @coversDefaultGroup getCurrentQuery
-	 * @group              Orm
+	 * @covers ::select
+	 * @covers ::getCurrentQuery
+	 * @group  Orm
 	 */
 	public function testSelect()
 	{

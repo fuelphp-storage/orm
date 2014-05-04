@@ -15,7 +15,8 @@ namespace Fuel\Orm;
  *
  * @package Fuel\Orm
  * @author  Fuel Development Team
- * @covers  Fuel\Orm\Model
+ *
+ * @coversDefaultClass Fuel\Orm\Model
  */
 class ModelTest extends \PHPUnit_Framework_TestCase
 {
@@ -31,9 +32,9 @@ class ModelTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @coversDefaultClass isNew
-	 * @coversDefaultClass setIsNew
-	 * @group              Orm
+	 * @covers ::isNew
+	 * @covers ::setIsNew
+	 * @group  Orm
 	 */
 	public function testIsNew()
 	{
@@ -49,9 +50,9 @@ class ModelTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @coversDefaultClass setIsNew
-	 * @expectedException  \InvalidArgumentException
-	 * @group              Orm
+	 * @covers            ::setIsNew
+	 * @expectedException \InvalidArgumentException
+	 * @group             Orm
 	 */
 	public function testIsNewInvalid()
 	{
@@ -59,8 +60,8 @@ class ModelTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @coversDefaultClass getOriginalData
-	 * @group              Orm
+	 * @covers ::getOriginalData
+	 * @group  Orm
 	 */
 	public function testGetOriginalData()
 	{
@@ -71,9 +72,9 @@ class ModelTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @coversDefaultClass setProvider
-	 * @coversDefaultClass getProvider
-	 * @group              Orm
+	 * @covers ::setProvider
+	 * @covers ::getProvider
+	 * @group  Orm
 	 */
 	public function testSetGetProvider()
 	{
@@ -88,9 +89,9 @@ class ModelTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @coversDefaultClass __construct
-	 * @coversDefaultClass getOriginalData
-	 * @group              Orm
+	 * @covers ::__construct
+	 * @covers ::getOriginalData
+	 * @group  Orm
 	 */
 	public function testConstructWithData()
 	{

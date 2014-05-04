@@ -19,7 +19,8 @@ use \SubjectStub;
  *
  * @package Fuel\Orm\Observer
  * @author  Fuel Development Team
- * @covers  Fuel\Orm\Observer\SubjectTrait
+ *
+ * @coversDefaultClass Fuel\Orm\Observer\SubjectTrait
  */
 class SubjectTraitTest extends \PHPUnit_Framework_TestCase {
 
@@ -34,9 +35,9 @@ class SubjectTraitTest extends \PHPUnit_Framework_TestCase {
     }
 
 	/**
-	 * @coversDefaultClass attach
-	 * @coversDefaultClass trigger
-	 * @group              Orm
+	 * @covers ::attach
+	 * @covers ::trigger
+	 * @group  Orm
 	 */
 	public function testSimpleObserver()
 	{
@@ -50,9 +51,9 @@ class SubjectTraitTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @coversDefaultClass attach
-	 * @coversDefaultClass trigger
-	 * @group              Orm
+	 * @covers ::attach
+	 * @covers ::trigger
+	 * @group  Orm
 	 */
 	public function testMultipleObservers()
 	{
@@ -63,17 +64,17 @@ class SubjectTraitTest extends \PHPUnit_Framework_TestCase {
 		$observer2->shouldReceive('notify')->with($this->object, 'test')->once();
 
 		/** @var ObserverInterface $observer1 */
-		/** @var ObserverInterface $observer2 */
 		$this->object->attach($observer1, 'test');
+		/** @var ObserverInterface $observer2 */
 		$this->object->attach($observer2, 'test');
 
 		$this->object->trigger($this->object, 'test');
 	}
 
 	/**
-	 * @coversDefaultClass attach
-	 * @coversDefaultClass trigger
-	 * @group              Orm
+	 * @covers ::attach
+	 * @covers ::trigger
+	 * @group  Orm
 	 */
 	public function testStopStack()
 	{
@@ -84,8 +85,8 @@ class SubjectTraitTest extends \PHPUnit_Framework_TestCase {
 		$observer2->shouldReceive('notify')->never();
 
 		/** @var ObserverInterface $observer1 */
-		/** @var ObserverInterface $observer2 */
 		$this->object->attach($observer1, 'test');
+		/** @var ObserverInterface $observer2 */
 		$this->object->attach($observer2, 'test');
 
 		$this->object->trigger($this->object, 'test');
