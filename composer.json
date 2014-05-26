@@ -20,10 +20,9 @@
 		"mockery/mockery": "0.7.*"
 	},
 	"autoload": {
-		"psr-0": { "Fuel\\Orm": "src/" }
+		"psr-4": { "Fuel\\Orm\\": "src/" }
 	},
 	"suggest": {
 		"fuelphp/validation": "Allows models to be validated"
-	},
-	"minimum-stability": "dev"
+	}
 }
