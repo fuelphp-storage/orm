@@ -13,11 +13,13 @@
 	],
 	"require": {
 		"php": ">=5.4",
-		"fuelphp/common": "dev-master",
-        "fuelphp/database": "dev-master"
+		"fuelphp/common": "dev-master"
 	},
 	"require-dev": {
-		"mockery/mockery": "0.7.*"
+		"codeception/codeception": "1.8",
+		"codeception/mockery-module": "dev-master",
+		"mockery/mockery": "0.7.*",
+		"fuelphp/database": "dev-master"
 	},
 	"autoload": {
 		"psr-4": { "Fuel\\Orm\\": "src/" }
