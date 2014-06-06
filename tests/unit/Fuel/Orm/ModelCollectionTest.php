@@ -10,6 +10,8 @@
 
 namespace Fuel\Orm;
 
+use Codeception\TestCase\Test;
+
 /**
  * Tests for ModelCollection
  *
@@ -18,7 +20,7 @@ namespace Fuel\Orm;
  *
  * @coversDefaultClass Fuel\Orm\ModelCollection
  */
-class ModelCollectionTest extends \PHPUnit_Framework_TestCase
+class ModelCollectionTest extends Test
 {
 
 	/**
@@ -26,7 +28,7 @@ class ModelCollectionTest extends \PHPUnit_Framework_TestCase
 	 */
 	protected $object;
 
-	protected function setUp()
+	protected function _before()
 	{
 		$this->object = new ModelCollection;
 	}

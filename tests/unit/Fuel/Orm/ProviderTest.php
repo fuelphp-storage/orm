@@ -10,7 +10,7 @@
 
 namespace Fuel\Orm;
 
-require_once __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'stubs'.DIRECTORY_SEPARATOR.'ProviderStub.php';
+use Codeception\TestCase\Test;
 
 /**
  * Tests for Provider
@@ -20,7 +20,7 @@ require_once __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY
  *
  * @coversDefaultClass Fuel\Orm\Provider
  */
-class ProviderTest extends \PHPUnit_Framework_TestCase
+class ProviderTest extends Test
 {
 
 	/**
@@ -28,7 +28,7 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 	 */
 	protected $object;
 
-	protected function setUp()
+	protected function _before()
 	{
 		$db = \Mockery::mock('Fuel\Database\Connection');
 

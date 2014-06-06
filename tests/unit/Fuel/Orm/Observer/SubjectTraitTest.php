@@ -10,8 +10,7 @@
 
 namespace Fuel\Orm\Observer;
 
-require_once __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'stubs'.DIRECTORY_SEPARATOR.'SubjectStub.php';
-
+use Codeception\TestCase\Test;
 use \SubjectStub;
 
 /**
@@ -22,14 +21,14 @@ use \SubjectStub;
  *
  * @coversDefaultClass Fuel\Orm\Observer\SubjectTrait
  */
-class SubjectTraitTest extends \PHPUnit_Framework_TestCase {
+class SubjectTraitTest extends Test {
 
     /**
      * @var SubjectStub
      */
     protected $object;
 
-    protected function setUp()
+    protected function _before()
     {
 		$this->object = new SubjectStub;
     }
