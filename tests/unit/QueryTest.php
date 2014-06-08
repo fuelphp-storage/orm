@@ -108,7 +108,7 @@ class QueryTest extends Test
 		);
 	}
 
-	public function testActualSelect()
+	public function testSingleSelect()
 	{
 		$this->codeGuy->haveInDatabase('posts', [
 				'id' => '1',
@@ -118,10 +118,7 @@ class QueryTest extends Test
 				'updated_at' => 321,
 			]);
 
-		/** @var \Fuel\Database\Connection $fuelDBConnection */
-		$fuelDBConnection = $GLOBALS['fuelDBConnection'];
-
-		$postProvider = new PostProvider($fuelDBConnection);
+		$postProvider = new PostProvider($GLOBALS['fuelDBConnection']);
 
 		$result = $postProvider->getQuery()->select()->execute();
 
@@ -138,6 +135,45 @@ class QueryTest extends Test
 		$this->assertEquals(
 			'description',
 			$result->description
+		);
+	}
+
+	public function testSingleDelete()
+	{
+		$model1 = [
+			'id' => '1',
+			'title' => 'title',
+			'description' => 'description',
+			'created_at' => 123,
+			'updated_at' => 321,
+		];
+		$this->codeGuy->haveInDatabase('posts', $model1);
+
+		$model2 = [
+			'id' => '2',
+			'title' => 'title',
+			'description' => 'description',
+			'created_at' => 123,
+			'updated_at' => 321,
+		];
+		$this->codeGuy->haveInDatabase('posts', $model2);
+
+		$provider = new PostProvider($GLOBALS['fuelDBConnection']);
+
+		$model = $provider->forgeModelInstance($model1);
+
+		$provider->getQuery()
+			->delete([$model])
+			->execute();
+
+		$this->codeGuy->cantSeeInDatabase(
+			'posts',
+			$model1
+		);
+
+		$this->codeGuy->canSeeInDatabase(
+			'posts',
+			$model2
 		);
 	}
 

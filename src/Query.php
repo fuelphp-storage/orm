@@ -111,7 +111,7 @@ class Query implements QueryInterface, SubjectInterface
 	/**
 	 * Deletes a model or number of models
 	 *
-	 * @param array|ModelInterface $models Models to delete
+	 * @param ModelInterface[] $models Models to delete
 	 *
 	 * @return $this
 	 *
@@ -125,8 +125,24 @@ class Query implements QueryInterface, SubjectInterface
 
 		$dbal = $provider->getDbal();
 
-		// TODO: Use the list of models to delete only the given entities
 		$this->currentQuery = $dbal->delete($tableName);
+
+		$inIds = [];
+
+		foreach ($models as $model)
+		{
+			$inIds = $model->id;
+		}
+
+		// TODO: make sure this uses the actual PK
+		if (count($inIds) > 1)
+		{
+			$this->currentQuery->where('id', 'IN', $inIds);
+		}
+		else
+		{
+			$this->currentQuery->where('id', $inIds);
+		}
 
 		return $this;
 	}
@@ -146,8 +162,6 @@ class Query implements QueryInterface, SubjectInterface
 
 		$columns = $provider->getProperties();
 
-		$tableName = $provider->getTableName();
-
 		$dbal = $provider->getDbal();
 
 		// WTF?
@@ -159,7 +173,7 @@ class Query implements QueryInterface, SubjectInterface
 			$this->currentQuery->select($column);
 		}
 
-		$this->currentQuery->from($tableName);
+		$this->currentQuery->from($provider->getTableName());
 
 		return $this;
 	}
