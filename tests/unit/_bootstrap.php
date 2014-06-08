@@ -13,8 +13,8 @@ require_once __DIR__.'/stubs/Provider/PostProvider.php';
 /** @var Connection $fuelDBConnection */
 $fuelDBConnection = \Fuel\Database\DB::connection(
 	[
-		'dsn'=> 'mysql:host=localhost;dbname=codeception',
-		'username' => 'codeception',
+		'dsn'=> 'mysql:host=127.0.0.1;dbname=codeception',
+		'username' => 'root',
 		'password' => '',
 	]
 );
