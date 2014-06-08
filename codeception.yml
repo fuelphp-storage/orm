@@ -12,8 +12,8 @@ settings:
 modules:
     config:
         Db:
-            dsn: 'mysql:host=localhost;dbname=codeception'
-            user: 'codeception'
+            dsn: 'mysql:host=localhost;dbname=fuelphp_orm_tests'
+            user: 'root'
             password: ''
             dump: tests/_data/dump.sql
             populate: true
