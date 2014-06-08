@@ -11,6 +11,8 @@
 namespace Fuel\Orm;
 
 use Codeception\TestCase\Test;
+use Fuel\Database\Connection;
+use Fuel\Orm\Provider\PostProvider;
 use Mockery\Mock;
 
 /**
@@ -106,61 +108,36 @@ class QueryTest extends Test
 		);
 	}
 
-	/**
-	 * @covers ::select
-	 * @covers ::getCurrentQuery
-	 * @group  Orm
-	 */
-	public function testSelect()
+	public function testActualSelect()
 	{
-		/** @var Query $object */
-		/** @var Mock $provider */
-		list ($object, $provider) = $this->getInstance();
+		$this->codeGuy->haveInDatabase('posts', [
+				'id' => '1',
+				'title' => 'title',
+				'description' => 'description',
+				'created_at' => 123,
+				'updated_at' => 321,
+			]);
 
-		$tableName = 'table';
-		$properties = [
-			'a' => 'a',
-			'b' => 'b',
-			'c' => 'c',
-		];
+		/** @var \Fuel\Database\Connection $fuelDBConnection */
+		$fuelDBConnection = $GLOBALS['fuelDBConnection'];
 
-		// Create a new DBAL mock
-		$dbal = \Mockery::mock('Fuel\Database\Connection');
+		$postProvider = new PostProvider($fuelDBConnection);
 
-		// Set up our provider Mock
-		$provider->shouldReceive('getDbal')
-			->once()
-			->andReturn($dbal);
+		$result = $postProvider->getQuery()->select()->execute();
 
-		$provider->shouldReceive('getProperties')
-			->once()
-			->andReturn($properties);
-
-		$provider->shouldReceive('getTableName')
-			->once()
-			->andReturn($tableName);
-
-		// Set up our DBAL mock
-		$dbal->shouldReceive('select')
-			->with($properties)
-			->once()
-			->andReturn($dbal);
-
-		$dbal->shouldReceive('from')
-			->with($tableName)
-			->once()
-			->andReturn($dbal);
-
-		// Make sure it's blank to start with
-		$this->assertNull($object->getCurrentQuery());
-
-		// Perform the call to select to test the above
-		$object->select();
-
-		// Make sure our current query is set
 		$this->assertEquals(
-			 $dbal,
-			 $object->getCurrentQuery()
+			1,
+			$result->id
+		);
+
+		$this->assertEquals(
+			'title',
+			$result->title
+		);
+
+		$this->assertEquals(
+			'description',
+			$result->description
 		);
 	}
 
