@@ -97,7 +97,7 @@ class Query implements QueryInterface, SubjectInterface
 	/**
 	 * Inserts a model or number of models
 	 *
-	 * @param array|ModelInterface $models Models to insert
+	 * @param ModelInterface[] $models Models to insert
 	 *
 	 * @return $this
 	 *
@@ -105,7 +105,19 @@ class Query implements QueryInterface, SubjectInterface
 	 */
 	public function insert($models)
 	{
-		// TODO: Implement insert() method.
+		$provider = $this->getProvider();
+
+		$dbal = $provider->getDbal();
+
+		$this->currentQuery = $dbal
+			->insert($provider->getTableName());
+
+		foreach ($models as $model)
+		{
+			$this->currentQuery->values($model->toArray());
+		}
+
+		return $this;
 	}
 
 	/**
@@ -121,11 +133,9 @@ class Query implements QueryInterface, SubjectInterface
 	{
 		$provider = $this->getProvider();
 
-		$tableName = $provider->getTableName();
-
 		$dbal = $provider->getDbal();
 
-		$this->currentQuery = $dbal->delete($tableName);
+		$this->currentQuery = $dbal->delete($provider->getTableName());
 
 		$inIds = [];
 

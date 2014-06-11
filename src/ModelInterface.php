@@ -69,6 +69,15 @@ interface ModelInterface
 	public function getOriginalData();
 
 	/**
+	 * Gets the model's data as an array
+	 *
+	 * @return array
+	 *
+	 * @since  2.0
+	 */
+	public function toArray();
+
+	/**
 	 * Magic getter to allow for easy property access
 	 *
 	 * @param string $key

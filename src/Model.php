@@ -138,4 +138,16 @@ class Model extends DataContainer implements ModelInterface
 		return $this->provider;
 	}
 
+	/**
+	 * Gets the model's data as an array
+	 *
+	 * @return array
+	 *
+	 * @since  2.0
+	 */
+	public function toArray()
+	{
+		return $this->data;
+	}
+
 }

@@ -177,4 +177,26 @@ class QueryTest extends Test
 		);
 	}
 
+	public function testSingleInsert()
+	{
+		$model1 = [
+			'id' => '1',
+			'title' => 'title',
+			'description' => 'description',
+			'created_at' => 123,
+			'updated_at' => 321,
+		];
+
+		$provider = new PostProvider($GLOBALS['fuelDBConnection']);
+
+		$model = $provider->forgeModelInstance($model1);
+
+		$provider->getQuery()
+			->insert([$model])
+			->execute();
+
+		$this->codeGuy->canSeeInDatabase('posts', $model1);
+	}
+
+
 }
