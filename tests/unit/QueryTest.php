@@ -198,5 +198,27 @@ class QueryTest extends Test
 		$this->codeGuy->canSeeInDatabase('posts', $model1);
 	}
 
+	public function testSingleUpdate()
+	{
+		$model1 = [
+			'id' => '1',
+			'title' => 'title',
+			'description' => 'description',
+			'created_at' => 123,
+			'updated_at' => 321,
+		];
+		$this->codeGuy->haveInDatabase('posts', $model1);
+
+		$provider = new PostProvider($GLOBALS['fuelDBConnection']);
+		$model = $provider->forgeModelInstance($model1);
+
+		$model->title = 'shiny new title';
+		$provider->getQuery()
+			->update($model)
+			->execute();
+
+		$model1['title'] = 'shiny new title';
+		$this->codeGuy->canSeeInDatabase('posts', $model1);
+	}
 
 }

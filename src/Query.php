@@ -189,6 +189,38 @@ class Query implements QueryInterface, SubjectInterface
 	}
 
 	/**
+	 * Updates a single model.
+	 *
+	 * @param ModelInterface $model
+	 *
+	 * @return $this
+	 *
+	 * @since 2.0
+	 */
+	public function update($model)
+	{
+		// TODO: Find out if multiple inserts can be done together.
+
+		$provider = $this->getProvider();
+
+		$this->currentQuery = $provider->getDbal()
+			->update($provider->getTableName());
+
+		foreach ($model as $name => $value)
+		{
+			if ($name !== 'id')
+			{
+				$this->currentQuery->set($name, $value);
+			}
+		}
+
+		// TODO: Update to use the actual PK
+		$this->currentQuery->where('id', $model->id);
+
+		return $this;
+	}
+
+	/**
 	 * Executes the prepared query
 	 *
 	 * @return ModelInterface|ModelCollectionInterface|null
@@ -233,20 +265,6 @@ class Query implements QueryInterface, SubjectInterface
 	public function getCurrentQuery()
 	{
 		return $this->currentQuery;
-	}
-
-	/**
-	 * Updates a model or number of models
-	 *
-	 * @param array|ModelInterface $models Models to update
-	 *
-	 * @return $this
-	 *
-	 * @since 2.0
-	 */
-	public function update($models)
-	{
-		// TODO: Implement update() method.
 	}
 
 	/**
