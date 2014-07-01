@@ -108,6 +108,10 @@ class QueryTest extends Test
 		);
 	}
 
+	/**
+	 * @covers ::select
+	 * @group  Orm
+	 */
 	public function testSingleSelect()
 	{
 		$this->codeGuy->haveInDatabase('posts', [
@@ -120,7 +124,9 @@ class QueryTest extends Test
 
 		$postProvider = new PostProvider($GLOBALS['fuelDBConnection']);
 
-		$result = $postProvider->getQuery()->select()->execute();
+		$result = $postProvider->getQuery()
+			->select()
+			->execute();
 
 		$this->assertEquals(
 			1,
@@ -138,6 +144,48 @@ class QueryTest extends Test
 		);
 	}
 
+	/**
+	 * @covers ::select
+	 * @group  Orm
+	 */
+	public function testMultipleSelect()
+	{
+		$this->codeGuy->haveInDatabase('posts', [
+				'id' => '1',
+				'title' => 'title',
+				'description' => 'description',
+				'created_at' => 123,
+				'updated_at' => 321,
+			]);
+		$this->codeGuy->haveInDatabase('posts', [
+				'id' => '2',
+				'title' => 'title2',
+				'description' => 'description2',
+				'created_at' => 456,
+				'updated_at' => 654,
+			]);
+
+		$postProvider = new PostProvider($GLOBALS['fuelDBConnection']);
+
+		$result = $postProvider->getQuery()
+			->select()
+			->execute();
+
+		$this->assertInstanceOf(
+			'\Fuel\Orm\ModelCollection',
+			$result
+		);
+
+		$this->assertCount(
+			2,
+			$result->getContents()
+		);
+	}
+
+	/**
+	 * @covers ::delete
+	 * @group  Orm
+	 */
 	public function testSingleDelete()
 	{
 		$model1 = [
@@ -177,6 +225,47 @@ class QueryTest extends Test
 		);
 	}
 
+	/**
+	 * @covers ::delete
+	 * @group  Orm
+	 */
+	public function testMultipleDelete()
+	{
+		$modelData1 = [
+			'id' => '1',
+			'title' => 'title',
+			'description' => 'description',
+			'created_at' => 123,
+			'updated_at' => 321,
+		];
+		$this->codeGuy->haveInDatabase('posts', $modelData1);
+
+		$modelData2 = [
+			'id' => '2',
+			'title' => 'title2',
+			'description' => 'description2',
+			'created_at' => 456,
+			'updated_at' => 654,
+		];
+		$this->codeGuy->haveInDatabase('posts', $modelData2);
+
+		$provider = new PostProvider($GLOBALS['fuelDBConnection']);
+
+		$model1 = $provider->forgeModelInstance($modelData1);
+		$model2 = $provider->forgeModelInstance($modelData2);
+
+		$provider->getQuery()
+				->delete([$model1, $model2])
+				->execute();
+
+		$this->codeGuy->cantSeeInDatabase('posts', $modelData1);
+		$this->codeGuy->cantSeeInDatabase('posts', $modelData2);
+	}
+
+	/**
+	 * @covers ::insert
+	 * @group  Orm
+	 */
 	public function testSingleInsert()
 	{
 		$model1 = [
@@ -198,6 +287,44 @@ class QueryTest extends Test
 		$this->codeGuy->canSeeInDatabase('posts', $model1);
 	}
 
+	/**
+	 * @covers ::insert
+	 * @group  Orm
+	 */
+	public function testMultipleInsert()
+	{
+		$modelData1 = [
+			'id' => '1',
+			'title' => 'title',
+			'description' => 'description',
+			'created_at' => 123,
+			'updated_at' => 321,
+		];
+		$modelData2 = [
+			'id' => '2',
+			'title' => 'title2',
+			'description' => 'description2',
+			'created_at' => 456,
+			'updated_at' => 654,
+		];
+
+		$provider = new PostProvider($GLOBALS['fuelDBConnection']);
+
+		$model1 = $provider->forgeModelInstance($modelData1);
+		$model2 = $provider->forgeModelInstance($modelData2);
+
+		$provider->getQuery()
+				->insert([$model1, $model2])
+				->execute();
+
+		$this->codeGuy->canSeeInDatabase('posts', $modelData1);
+		$this->codeGuy->canSeeInDatabase('posts', $modelData2);
+	}
+
+	/**
+	 * @covers ::update
+	 * @group  Orm
+	 */
 	public function testSingleUpdate()
 	{
 		$model1 = [

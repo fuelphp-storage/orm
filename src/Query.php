@@ -141,10 +141,10 @@ class Query implements QueryInterface, SubjectInterface
 
 		foreach ($models as $model)
 		{
-			$inIds = $model->id;
+			// TODO: make sure this uses the actual PK
+			$inIds[] = $model->id;
 		}
 
-		// TODO: make sure this uses the actual PK
 		if (count($inIds) > 1)
 		{
 			$this->currentQuery->where('id', 'IN', $inIds);
