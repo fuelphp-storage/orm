@@ -31,6 +31,13 @@ class ModelCollection extends DataContainer implements ModelCollectionInterface
 	protected $modelClass = '\Fuel\Orm\Model';
 
 	/**
+	 * Contains the parent provider
+	 *
+	 * @var ProviderInterface
+	 */
+	protected $provider;
+
+	/**
 	 * Gets the full class name that this collection will accept
 	 *
 	 * @return string
@@ -89,4 +96,27 @@ class ModelCollection extends DataContainer implements ModelCollectionInterface
 		return parent::set($key, $value);
 	}
 
+	/**
+	 * Sets the parent provider.
+	 *
+	 * @param ProviderInterface $provider
+	 *
+	 * @since 2.0
+	 */
+	public function setProvider(ProviderInterface $provider)
+	{
+		$this->provider = $provider;
+	}
+
+	/**
+	 * Gets the provider assigned to this collection.
+	 *
+	 * @return ProviderInterface
+	 *
+	 * @since  2.0
+	 */
+	public function getProvider()
+	{
+		return $this->provider;
+	}
 }

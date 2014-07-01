@@ -176,13 +176,13 @@ class ProviderTest extends Test
 		$age = 32;
 		$name = 'My Name';
 
-		$modelData = [
+		$modelData = [[
 			'name' => $name,
 			'age' => $age,
-		];
+		]];
 
 		/** @var ModelInterface $result */
-		$result = $this->object->hydrate([$modelData]);
+		$result = $this->object->hydrate($modelData);
 
 		$this->assertInstanceOf(
 			'Fuel\Orm\ModelInterface',
@@ -197,6 +197,36 @@ class ProviderTest extends Test
 		$this->assertEquals(
 			$name,
 			$result->name
+		);
+	}
+
+	/**
+	 * @covers ::hydrate
+	 * @group  Orm
+	 */
+	public function testHydrateWithMultipleModels()
+	{
+		$modelData = [
+			[
+				'name' => 'name1',
+				'age' => 'age1',
+			],
+			[
+				'name' => 'name2',
+				'age' => 'age2',
+			],
+		];
+
+		$result = $this->object->hydrate($modelData);
+
+		$this->assertInstanceOf(
+			'\Fuel\Orm\ModelCollection',
+			$result
+		);
+
+		$this->assertCount(
+			2,
+			$result->getContents()
 		);
 	}
 

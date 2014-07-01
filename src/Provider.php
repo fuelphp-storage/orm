@@ -114,22 +114,27 @@ abstract class Provider implements ProviderInterface
 		}
 
 		// TODO: make sure a collection is returned if needed
-		return $models;
+		return $this->forgeModelCollectionInstance($models);
 	}
 
 	/**
 	 * Creates a new instance of the Provider's ModelCollection
 	 *
+	 * @param ModelInterface[] $models
+	 *
 	 * @return ModelCollectionInterface
 	 *
 	 * @since 2.0
 	 */
-	public function forgeModelCollectionInstance()
+	public function forgeModelCollectionInstance($models = [])
 	{
 		$class = $this->getModelCollectionClass();
 
 		/** @var ModelCollectionInterface $instance */
-		$instance = new $class;
+		$instance = new $class($models);
+
+		$instance->setModelClass($this->getModelClass());
+		$instance->setProvider($this);
 
 		return $instance;
 	}

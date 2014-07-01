@@ -46,10 +46,11 @@ interface ModelCollectionInterface
 	/**
 	 * Delete data from the container
 	 *
-	 * @param   string $key key to delete
+	 * @param string $key key to delete
 	 *
-	 * @return  boolean  delete success boolean
-	 * @since   2.0.0
+	 * @return boolean delete success boolean
+	 *
+	 * @since 2.0
 	 */
 	public function delete($key);
 
@@ -65,8 +66,29 @@ interface ModelCollectionInterface
 	/**
 	 * The given value must be an instance of the $modelClass
 	 *
-	 * @inheritdoc
+	 * @param mixed $key   name of the index
+	 * @param mixed $value Value of the index
+	 *
+	 * @since 2.0
 	 */
 	public function set($key, $value);
+
+	/**
+	 * Sets the parent provider.
+	 *
+	 * @param ProviderInterface $provider
+	 *
+	 * @since 2.0
+	 */
+	public function setProvider(ProviderInterface $provider);
+
+	/**
+	 * Gets the provider assigned to this collection.
+	 *
+	 * @return ProviderInterface
+	 *
+	 * @since  2.0
+	 */
+	public function getProvider();
 
 }

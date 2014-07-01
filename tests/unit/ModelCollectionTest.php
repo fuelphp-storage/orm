@@ -129,4 +129,24 @@ class ModelCollectionTest extends Test
 		);
 	}
 
+	/**
+	 * @covers ::__construct
+	 * @group  Orm
+	 */
+	public function testCreateModelCollectionWithModels()
+	{
+		$models = [
+			new Model,
+			new Model,
+			new Model,
+		];
+
+		$collection = new ModelCollection($models);
+
+		$this->assertEquals(
+			$models,
+			$collection->getContents()
+		);
+	}
+
 }
