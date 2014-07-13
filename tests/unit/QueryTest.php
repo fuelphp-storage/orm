@@ -13,6 +13,7 @@ namespace Fuel\Orm;
 use Codeception\TestCase\Test;
 use Fuel\Database\Connection;
 use Fuel\Orm\Provider\PostProvider;
+use LogicException;
 use Mockery\Mock;
 
 /**
@@ -319,6 +320,65 @@ class QueryTest extends Test
 
 		$this->codeGuy->canSeeInDatabase('posts', $modelData1);
 		$this->codeGuy->canSeeInDatabase('posts', $modelData2);
+	}
+
+	/**
+	 * @covers ::where
+	 * @group  Orm
+	 */
+	public function testSelectWithWhere()
+	{
+		$modelData1 = [
+			'id' => '1',
+			'title' => 'title',
+			'description' => 'description',
+			'created_at' => 123,
+			'updated_at' => 321,
+		];
+		$modelData2 = [
+			'id' => '2',
+			'title' => 'title2',
+			'description' => 'description2',
+			'created_at' => 456,
+			'updated_at' => 654,
+		];
+		$this->codeGuy->haveInDatabase('posts', $modelData1);
+		$this->codeGuy->haveInDatabase('posts', $modelData2);
+
+		$provider = new PostProvider($GLOBALS['fuelDBConnection']);
+
+		$result = $provider->getQuery()
+			->select()
+			->where('id', '2')
+			->execute();
+
+		$this->assertInstanceOf(
+			'\Fuel\Orm\Model',
+			$result
+		);
+
+		$this->assertEquals(
+			'title2',
+			$result->title
+		);
+
+		$this->assertEquals(
+			'description2',
+			$result->description
+		);
+	}
+
+	/**
+	 * @covers            ::where
+	 * @expectedException LogicException
+	 * @group             Orm
+	 */
+	public function testWhereWithoutQuery()
+	{
+		/** @type Query $query */
+		list($query, ) = $this->getInstance();
+
+		$query->where('foo', '<', 123);
 	}
 
 	/**

@@ -19,6 +19,7 @@ namespace Fuel\Orm;
  */
 interface QueryInterface
 {
+
 	/**
 	 * Gets the provider that this Query belongs to
 	 *
@@ -73,7 +74,7 @@ interface QueryInterface
 	/**
 	 * Executes the prepared query
 	 *
-	 * @return bool|array|ModelInterface
+	 * @return bool|array|ModelInterface|ModelCollectionInterface
 	 *
 	 * @since 2.0
 	 */
@@ -89,4 +90,18 @@ interface QueryInterface
 	 * @since 2.0
 	 */
 	public function update($models);
+
+	/**
+	 * Adds a "where" cause to the query being built.
+	 * If $value is left as null then $operator can be the desired value and the operator should be assumed to be "=".
+	 *
+	 * @param string       $column
+	 * @param string|mixed $operator
+	 * @param null|mixed   $value
+	 *
+	 * @return $this
+	 *
+	 * @since 2.0
+	 */
+	public function where($column, $operator, $value = null);
 }

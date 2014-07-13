@@ -12,6 +12,7 @@ namespace Fuel\Orm;
 
 use Fuel\Orm\Observer\SubjectInterface;
 use Fuel\Orm\Observer\SubjectTrait;
+use LogicException;
 
 /**
  * Allows Providers to interact with the database
@@ -67,13 +68,7 @@ class Query implements QueryInterface, SubjectInterface
 	}
 
 	/**
-	 * Sets the provider that this Query belongs to
-	 *
-	 * @param ProviderInterface $provider
-	 *
-	 * @return $this
-	 *
-	 * @since 2.0
+	 * {@inheritdoc}
 	 */
 	public function setProvider(ProviderInterface $provider)
 	{
@@ -83,11 +78,7 @@ class Query implements QueryInterface, SubjectInterface
 	}
 
 	/**
-	 * Gets the provider that this Query belongs to
-	 *
-	 * @return ProviderInterface
-	 *
-	 * @since 2.0
+	 * {@inheritdoc}
 	 */
 	public function getProvider()
 	{
@@ -95,13 +86,7 @@ class Query implements QueryInterface, SubjectInterface
 	}
 
 	/**
-	 * Inserts a model or number of models
-	 *
-	 * @param ModelInterface[] $models Models to insert
-	 *
-	 * @return $this
-	 *
-	 * @since 2.0
+	 * {@inheritdoc}
 	 */
 	public function insert($models)
 	{
@@ -121,13 +106,7 @@ class Query implements QueryInterface, SubjectInterface
 	}
 
 	/**
-	 * Deletes a model or number of models
-	 *
-	 * @param ModelInterface[] $models Models to delete
-	 *
-	 * @return $this
-	 *
-	 * @since 2.0
+	 * {@inheritdoc}
 	 */
 	public function delete($models)
 	{
@@ -158,11 +137,7 @@ class Query implements QueryInterface, SubjectInterface
 	}
 
 	/**
-	 * Fetches a model or number of models
-	 *
-	 * @return $this
-	 *
-	 * @since 2.0
+	 * {@inheritdoc}
 	 */
 	public function select()
 	{
@@ -189,13 +164,7 @@ class Query implements QueryInterface, SubjectInterface
 	}
 
 	/**
-	 * Updates a single model.
-	 *
-	 * @param ModelInterface $model
-	 *
-	 * @return $this
-	 *
-	 * @since 2.0
+	 * {@inheritdoc}
 	 */
 	public function update($model)
 	{
@@ -221,11 +190,28 @@ class Query implements QueryInterface, SubjectInterface
 	}
 
 	/**
-	 * Executes the prepared query
-	 *
-	 * @return ModelInterface|ModelCollectionInterface|null
-	 *
-	 * @since 2.0
+	 * {@inheritdoc}
+	 */
+	public function where($property, $operator, $value = null)
+	{
+		if ($this->currentQuery === null)
+		{
+			throw new LogicException('ORM-006: You must start a query before you can filter it');
+		}
+
+		if ($value === null)
+		{
+			$value = $operator;
+			$operator = '=';
+		}
+
+		$this->currentQuery->where($property, $operator, $value);
+
+		return $this;
+	}
+
+	/**
+	 * {@inheritdoc}
 	 */
 	public function execute()
 	{
