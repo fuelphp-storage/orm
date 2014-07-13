@@ -43,7 +43,7 @@ class SubjectTraitTest extends Test {
 		$observer = \Mockery::mock('Fuel\Orm\Observer\ObserverInterface');
 		$observer->shouldReceive('notify')->with($this->object, 'test')->once();
 
-		/** @var ObserverInterface $observer */
+		/** @type ObserverInterface $observer */
 		$this->object->attach($observer, 'test');
 
 		$this->object->trigger($this->object, 'test');
@@ -62,9 +62,9 @@ class SubjectTraitTest extends Test {
 		$observer2 = \Mockery::mock('Fuel\Orm\Observer\ObserverInterface');
 		$observer2->shouldReceive('notify')->with($this->object, 'test')->once();
 
-		/** @var ObserverInterface $observer1 */
+		/** @type ObserverInterface $observer1 */
 		$this->object->attach($observer1, 'test');
-		/** @var ObserverInterface $observer2 */
+		/** @type ObserverInterface $observer2 */
 		$this->object->attach($observer2, 'test');
 
 		$this->object->trigger($this->object, 'test');
@@ -83,9 +83,9 @@ class SubjectTraitTest extends Test {
 		$observer2 = \Mockery::mock('Fuel\Orm\Observer\ObserverInterface');
 		$observer2->shouldReceive('notify')->never();
 
-		/** @var ObserverInterface $observer1 */
+		/** @type ObserverInterface $observer1 */
 		$this->object->attach($observer1, 'test');
-		/** @var ObserverInterface $observer2 */
+		/** @type ObserverInterface $observer2 */
 		$this->object->attach($observer2, 'test');
 
 		$this->object->trigger($this->object, 'test');

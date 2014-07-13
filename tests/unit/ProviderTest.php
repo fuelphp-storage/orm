@@ -181,7 +181,7 @@ class ProviderTest extends Test
 			'age' => $age,
 		]];
 
-		/** @var ModelInterface $result */
+		/** @type ModelInterface $result */
 		$result = $this->object->hydrate($modelData);
 
 		$this->assertInstanceOf(

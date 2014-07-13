@@ -32,7 +32,7 @@ class QueryTest extends Test
 	 */
 	protected function getInstance()
 	{
-		/** @var ProviderInterface $provider */
+		/** @type ProviderInterface $provider */
 		$provider = \Mockery::mock('Fuel\Orm\ProviderInterface');
 		$object = new Query($provider);
 
@@ -47,8 +47,8 @@ class QueryTest extends Test
 	 */
 	public function testGetSetProvider()
 	{
-		/** @var Query $object */
-		/** @var ProviderInterface $provider */
+		/** @type Query $object */
+		/** @type ProviderInterface $provider */
 		list ($object, $provider) = $this->getInstance();
 
 		$this->assertEquals(
@@ -72,7 +72,7 @@ class QueryTest extends Test
 	 */
 	public function testGetTableAlias()
 	{
-		/** @var Query $object */
+		/** @type Query $object */
 		list ($object) = $this->getInstance();
 
 		$this->assertEquals(
@@ -87,7 +87,7 @@ class QueryTest extends Test
 	 */
 	public function testGetPropertyAlias()
 	{
-		/** @var Query $object */
+		/** @type Query $object */
 		list ($object) = $this->getInstance();
 
 		$tableAlias = $object->getTableAlias();

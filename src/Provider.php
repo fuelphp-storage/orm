@@ -83,7 +83,7 @@ abstract class Provider implements ProviderInterface
 	{
 		$class = $this->getModelClass();
 
-		/** @var ModelInterface $instance */
+		/** @type ModelInterface $instance */
 		$instance = new $class((array) $data);
 		$instance->setProvider($this);
 
@@ -130,7 +130,7 @@ abstract class Provider implements ProviderInterface
 	{
 		$class = $this->getModelCollectionClass();
 
-		/** @var ModelCollectionInterface $instance */
+		/** @type ModelCollectionInterface $instance */
 		$instance = new $class($models);
 
 		$instance->setModelClass($this->getModelClass());

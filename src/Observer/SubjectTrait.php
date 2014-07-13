@@ -52,7 +52,7 @@ trait SubjectTrait
 	{
 		foreach ($this->observers[$event] as $observer)
 		{
-			/** @var ObserverInterface $observer */
+			/** @type ObserverInterface $observer */
 			$result = $observer->notify($subject, $event);
 
 			if ($result === false)
