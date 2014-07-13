@@ -68,48 +68,6 @@ class QueryTest extends Test
 	}
 
 	/**
-	 * @covers ::getTableAlias
-	 * @group  Orm
-	 */
-	public function testGetTableAlias()
-	{
-		/** @type Query $object */
-		list ($object) = $this->getInstance();
-
-		$this->assertEquals(
-			't0',
-			$object->getTableAlias()
-		);
-	}
-
-	/**
-	 * @covers ::getPropertyAlias
-	 * @group  Orm
-	 */
-	public function testGetPropertyAlias()
-	{
-		/** @type Query $object */
-		list ($object) = $this->getInstance();
-
-		$tableAlias = $object->getTableAlias();
-
-		$this->assertEquals(
-			$tableAlias . '.c0',
-			$object->getPropertyAlias('one')
-		);
-
-		$this->assertEquals(
-			$tableAlias . '.c1',
-			$object->getPropertyAlias('two')
-		);
-
-		$this->assertEquals(
-			$tableAlias . '.c0',
-			$object->getPropertyAlias('one')
-		);
-	}
-
-	/**
 	 * @covers ::select
 	 * @group  Orm
 	 */

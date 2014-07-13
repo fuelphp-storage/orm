@@ -253,49 +253,4 @@ class Query implements QueryInterface, SubjectInterface
 		return $this->currentQuery;
 	}
 
-	/**
-	 * Returns the alias that will be used for the Provider's table
-	 *
-	 * @return string
-	 *
-	 * @since 2.0
-	 */
-	public function getTableAlias()
-	{
-		// TODO: make this aware of when multiple tables are in play
-		return 't0';
-	}
-
-	/**
-	 * Gets an alias for the given property
-	 *
-	 * @param $property string
-	 *
-	 * @return mixed
-	 *
-	 * @since 2.0
-	 */
-	public function getPropertyAlias($property)
-	{
-		if ( ! array_key_exists($property, $this->aliases))
-		{
-			$this->createPropertyAlias($property);
-		}
-
-		return $this->aliases[$property];
-	}
-
-	/**
-	 * Creates an alias for a given property
-	 *
-	 * @param $property string
-	 *
-	 * @since 2.0
-	 */
-	protected function createPropertyAlias($property)
-	{
-		$this->aliases[$property] = $this->getTableAlias() . '.c' . $this->nextAliasNumber;
-		$this->nextAliasNumber++;
-	}
-
 }
