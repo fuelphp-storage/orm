@@ -16,7 +16,7 @@
 		"fuelphp/common": "dev-master"
 	},
 	"require-dev": {
-		"codeception/codeception": "2",
+		"codeception/codeception": "~2.0.0",
 		"codeception/mockery-module": "dev-master",
 		"fuelphp/database": "dev-master"
 	},
