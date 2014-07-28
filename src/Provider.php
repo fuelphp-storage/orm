@@ -11,6 +11,8 @@
 namespace Fuel\Orm;
 
 use Fuel\Database\Connection;
+use Fuel\Orm\Relation\AbstractRelation;
+use InvalidArgumentException;
 use RuntimeException;
 
 /**
@@ -52,6 +54,11 @@ abstract class Provider implements ProviderInterface
 	 * @var Connection
 	 */
 	protected $dbal;
+
+	/**
+	 * @var AbstractRelation[]
+	 */
+	protected $relations = [];
 
 	public function __construct(Connection $dbal)
 	{
@@ -113,7 +120,7 @@ abstract class Provider implements ProviderInterface
 			return $models[0];
 		}
 
-		// TODO: make sure a collection is returned if needed
+		// make sure a collection is returned if needed
 		return $this->forgeModelCollectionInstance($models);
 	}
 
@@ -195,7 +202,7 @@ abstract class Provider implements ProviderInterface
 	{
 		if ($this->tableName === null)
 		{
-			throw new RuntimeException('ORM-003: No table name specified for [' . get_class() . ']');
+			throw new RuntimeException('ORM-003: No table name specified for [' . get_called_class() . ']');
 		}
 
 		return $this->tableName;
@@ -229,4 +236,67 @@ abstract class Provider implements ProviderInterface
 		return $this->dbal;
 	}
 
+	/**
+	 * Adds a relation to this provider
+	 *
+	 * @param string           $name
+	 * @param AbstractRelation $relation
+	 *
+	 * @return $this
+	 *
+	 * @since 2.0
+	 */
+	public function addRelation($name, AbstractRelation $relation)
+	{
+		$this->relations[$name] = $relation;
+
+		return $this;
+	}
+
+	/**
+	 * Checks if the given relation exists
+	 *
+	 * @param string $name
+	 *
+	 * @return bool
+	 *
+	 * @since 2.0
+	 */
+	public function hasRelation($name)
+	{
+		return array_key_exists($name, $this->relations);
+	}
+
+	/**
+	 * Gets all relations assigned to this provider
+	 *
+	 * @return AbstractRelation[]
+	 *
+	 * @since 2.0
+	 */
+	public function getRelations()
+	{
+		return $this->relations;
+	}
+
+	/**
+	 * Gets the given relation
+	 *
+	 * @param string $name
+	 *
+	 * @return AbstractRelation
+	 *
+	 * @throws InvalidArgumentException
+	 *
+	 * @since 2.0
+	 */
+	public function getRelation($name)
+	{
+		if ( ! $this->hasRelation($name))
+		{
+			throw new InvalidArgumentException('ORM-008: Relation ['.$name.'] does not exist in ['.get_called_class().']');
+		}
+
+		return $this->relations[$name];
+	}
 }

@@ -11,6 +11,8 @@
 namespace Fuel\Orm;
 
 use Codeception\TestCase\Test;
+use Fuel\Orm\Relation\AbstractRelationStub;
+use InvalidArgumentException;
 
 /**
  * Tests for Provider
@@ -228,6 +230,39 @@ class ProviderTest extends Test
 			2,
 			$result->getContents()
 		);
+	}
+
+	/**
+	 * @covers ::addRelation
+	 * @covers ::getRelation
+	 * @covers ::getRelations
+	 * @group  Orm
+	 */
+	public function testAddGetRelation()
+	{
+		$relation = new AbstractRelationStub;
+		$name = 'test';
+
+		$this->object->addRelation($name, $relation);
+
+		$this->assertEquals(
+			$relation,
+			$this->object->getRelation($name)
+		);
+
+		$this->assertEquals(
+			[$name => $relation],
+			$this->object->getRelations()
+		);
+	}
+
+	/**
+	 * @expectedException InvalidArgumentException
+	 * @group             Orm
+	 */
+	public function testGettingAnUnknownRelation()
+	{
+		$this->object->getRelation('I do not exist');
 	}
 
 }

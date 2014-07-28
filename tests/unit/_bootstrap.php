@@ -8,6 +8,7 @@ require_once __DIR__.'/../../vendor/autoload.php';
 require_once __DIR__.'/stubs/SubjectStub.php';
 require_once __DIR__.'/stubs/ProviderStub.php';
 require_once __DIR__.'/stubs/Provider/PostProvider.php';
+require_once __DIR__.'/stubs/Relation/AbstractRelationStub.php';
 
 // If someone knows a sane way of getting at the codecetpion.yml config then PRs are welcome
 /** @type Connection $fuelDBConnection */

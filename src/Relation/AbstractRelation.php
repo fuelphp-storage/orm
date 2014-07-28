@@ -8,7 +8,7 @@
  * @link      http://fuelphp.com
  */
 
-namespace Fuel\Orm;
+namespace Fuel\Orm\Relation;
 
 /**
  * Defines a relation between two providers
@@ -16,7 +16,7 @@ namespace Fuel\Orm;
  * @package Fuel\Orm
  * @since   2.0
  */
-class Relation
+class AbstractRelation
 {
 
 	/**
