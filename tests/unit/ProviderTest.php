@@ -11,6 +11,8 @@
 namespace Fuel\Orm;
 
 use Codeception\TestCase\Test;
+use Fuel\Orm\Relation\HasMany;
+use InvalidArgumentException;
 
 /**
  * Tests for Provider
@@ -228,6 +230,46 @@ class ProviderTest extends Test
 			2,
 			$result->getContents()
 		);
+	}
+
+	public function testGetSetRelations()
+	{
+		$relationObject = new HasMany;
+		$relations = ['foobar' => $relationObject];
+
+		$this->object->setRelations($relations);
+
+		$this->assertEquals(
+			$relationObject,
+			$this->object->getRelation('foobar')
+		);
+
+		$this->assertEquals(
+			$relations,
+			$this->object->getRelations()
+		);
+
+		$this->object->removeRelation('foobar');
+
+		$this->assertEquals(
+			[],
+			$this->object->getRelations()
+		);
+
+		$this->object->addRelation('bazbat', $relationObject);
+
+		$this->assertEquals(
+			$relationObject,
+			$this->object->getRelation('bazbat')
+		);
+	}
+
+	/**
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testGetInvalidRelation()
+	{
+		$this->object->getRelation('aasdasdasd');
 	}
 
 }
