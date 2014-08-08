@@ -11,10 +11,10 @@
 namespace Fuel\Orm;
 
 use Codeception\TestCase\Test;
+use CodeGuy;
 use Fuel\Database\Connection;
 use Fuel\Orm\Provider\PostProvider;
 use LogicException;
-use Mockery\Mock;
 
 /**
  * Tests for Query
@@ -23,6 +23,8 @@ use Mockery\Mock;
  * @author  Fuel Development Team
  *
  * @coversDefaultClass Fuel\Orm\Query
+ *
+ * @property CodeGuy $codeGuy
  */
 class QueryTest extends Test
 {
@@ -81,7 +83,7 @@ class QueryTest extends Test
 				'updated_at' => 321,
 			]);
 
-		$postProvider = new PostProvider($GLOBALS['fuelDBConnection']);
+		$postProvider = new PostProvider($this->codeGuy->getDbInstance());
 
 		$result = $postProvider->getQuery()
 			->select()
@@ -124,8 +126,9 @@ class QueryTest extends Test
 				'updated_at' => 654,
 			]);
 
-		$postProvider = new PostProvider($GLOBALS['fuelDBConnection']);
+		$postProvider = new PostProvider($this->codeGuy->getDbInstance());
 
+		/** @type ModelCollection $result */
 		$result = $postProvider->getQuery()
 			->select()
 			->execute();
@@ -165,7 +168,7 @@ class QueryTest extends Test
 		];
 		$this->codeGuy->haveInDatabase('posts', $model2);
 
-		$provider = new PostProvider($GLOBALS['fuelDBConnection']);
+		$provider = new PostProvider($this->codeGuy->getDbInstance());
 
 		$model = $provider->forgeModelInstance($model1);
 
@@ -208,7 +211,7 @@ class QueryTest extends Test
 		];
 		$this->codeGuy->haveInDatabase('posts', $modelData2);
 
-		$provider = new PostProvider($GLOBALS['fuelDBConnection']);
+		$provider = new PostProvider($this->codeGuy->getDbInstance());
 
 		$model1 = $provider->forgeModelInstance($modelData1);
 		$model2 = $provider->forgeModelInstance($modelData2);
@@ -235,7 +238,7 @@ class QueryTest extends Test
 			'updated_at' => 321,
 		];
 
-		$provider = new PostProvider($GLOBALS['fuelDBConnection']);
+		$provider = new PostProvider($this->codeGuy->getDbInstance());
 
 		$model = $provider->forgeModelInstance($model1);
 
@@ -267,7 +270,7 @@ class QueryTest extends Test
 			'updated_at' => 654,
 		];
 
-		$provider = new PostProvider($GLOBALS['fuelDBConnection']);
+		$provider = new PostProvider($this->codeGuy->getDbInstance());
 
 		$model1 = $provider->forgeModelInstance($modelData1);
 		$model2 = $provider->forgeModelInstance($modelData2);
@@ -303,7 +306,7 @@ class QueryTest extends Test
 		$this->codeGuy->haveInDatabase('posts', $modelData1);
 		$this->codeGuy->haveInDatabase('posts', $modelData2);
 
-		$provider = new PostProvider($GLOBALS['fuelDBConnection']);
+		$provider = new PostProvider($this->codeGuy->getDbInstance());
 
 		$result = $provider->getQuery()
 			->select()
@@ -354,7 +357,7 @@ class QueryTest extends Test
 		];
 		$this->codeGuy->haveInDatabase('posts', $model1);
 
-		$provider = new PostProvider($GLOBALS['fuelDBConnection']);
+		$provider = new PostProvider($this->codeGuy->getDbInstance());
 		$model = $provider->forgeModelInstance($model1);
 
 		$model->title = 'shiny new title';
