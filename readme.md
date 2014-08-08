@@ -7,14 +7,27 @@
 V2 orm currently consists of three separate parts that work together to provide a database abstraction via objects.
 These parts are `Provider`s, `Query`s and `Model`s. The names of these might change depending on their eventual implementation.
 
+## Providers
+
 A `Provider` contains the model's properties, table name and other related information. If you are familiar with the v1 orm
 this replaces the static properties that used to define the properties, relations, connection, table name and observers.
 The providers should (at the moment at least) be the first point of entry for interacting with
+
+## Queries
 
 `Query` objects provide a way for the developer to perform actions on the database using the abstraction of the ORM.
 The idea is that a `Query` object is responsible for talking to whatever database system you are using, be it MySQL,
 noSQL or flat text files.
 
+## Models
+
 `Model`, unlike v1, are dummy data container objects. The intent is to make them as light as possible to make dealing
 with large data sets more efficient. They may contain an interface that passes through to a `Query` or `Provider` in the
 future.
+
+# Testing
+
+Just as  a note, the database related tests can grab a valid DB instance from the codeguy class, this loads the config
+from the main codeception.yml config so you only need to update the DB config in one place to run the tests.
+
+In the tests classes this can be fetched with `$this->codeGuy->getDbInstance()`
