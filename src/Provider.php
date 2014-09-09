@@ -11,6 +11,8 @@
 namespace Fuel\Orm;
 
 use Fuel\Database\Connection;
+use Fuel\Orm\Relation\AbstractRelation;
+use InvalidArgumentException;
 use RuntimeException;
 
 /**
@@ -46,6 +48,12 @@ abstract class Provider implements ProviderInterface
 	 * @var string
 	 */
 	protected $tableName;
+
+	/**
+	 * Contains a list of known relations indexed by name
+	 * @var AbstractRelation[]
+	 */
+	protected $relations = [];
 
 	/**
 	 * Connection class that will be used for interacting with the database
@@ -227,6 +235,75 @@ abstract class Provider implements ProviderInterface
 	public function getDbal()
 	{
 		return $this->dbal;
+	}
+
+	/**
+	 * Gets all relations
+	 *
+	 * @return AbstractRelation[]
+	 *
+	 * @since 2.0
+	 */
+	public function getRelations()
+	{
+		return $this->relations;
+	}
+
+	/**
+	 * Adds a new relation to the provider. Please note, adding a relation twice with the same name will result in the
+	 * first one being overridden.
+	 *
+	 * @param string           $name
+	 * @param AbstractRelation $relation
+	 *
+	 * @since 2.0
+	 */
+	public function addRelation($name, AbstractRelation $relation)
+	{
+		$this->relations[$name] = $relation;
+	}
+
+	/**
+	 * Removes a relation from the provider
+	 *
+	 * @param string $name
+	 *
+	 * @since 2.0
+	 */
+	public function removeRelation($name)
+	{
+		unset($this->relations[$name]);
+	}
+
+	/**
+	 * Gets a single relation
+	 *
+	 * @param string $name
+	 *
+	 * @return AbstractRelation
+	 *
+	 * @since 2.0
+	 */
+	public function getRelation($name)
+	{
+		if ( ! array_key_exists($name, $this->relations))
+		{
+			throw new InvalidArgumentException("ORM-008: Relation [{$name}] does not exist in [".get_called_class().']');
+		}
+
+		return $this->relations[$name];
+	}
+
+	/**
+	 * Sets the relations array, should be indexed by relation name.
+	 *
+	 * @param AbstractRelation[] $relations
+	 *
+	 * @since 2.0
+	 */
+	public function setRelations($relations)
+	{
+		$this->relations = $relations;
 	}
 
 }
