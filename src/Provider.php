@@ -264,7 +264,7 @@ abstract class Provider implements ProviderInterface
 	 */
 	public function hasRelation($name)
 	{
-		return array_key_exists($name, $this->relations);
+		return isset($this->relations[$name]);
 	}
 
 	/**
