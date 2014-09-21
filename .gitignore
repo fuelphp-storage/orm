@@ -1,7 +1,7 @@
 .DS_Store
 vendor
 coverage
-cache
+/cache
 composer.lock
 *~
 *.bak
@@ -15,6 +15,7 @@ nbproject/
 *.tmproj
 *.sublime-project
 *.sublime-workspace
-index.php
+/index.php
 composer.phar
 tests/_log/*
+/codeception.yml
