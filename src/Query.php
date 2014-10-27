@@ -148,17 +148,8 @@ class Query implements QueryInterface, SubjectInterface
 		$columns = $provider->getProperties();
 
 		$dbal = $provider->getDbal();
-
-		// WTF?
-		$firstColumn = array_shift($columns);
-		$this->currentQuery = $dbal->select($firstColumn);
-
-		foreach ($columns as $column)
-		{
-			$this->currentQuery->select($column);
-		}
-
-		$this->currentQuery->from($provider->getTableName());
+		$this->currentQuery = $dbal->selectArray($columns)
+			->from($provider->getTableName());
 
 		return $this;
 	}

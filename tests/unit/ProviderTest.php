@@ -11,7 +11,7 @@
 namespace Fuel\Orm;
 
 use Codeception\TestCase\Test;
-use Fuel\Orm\Relation\HasMany;
+use Fuel\Orm\Relation\AbstractRelationStub;
 use InvalidArgumentException;
 
 /**
@@ -232,44 +232,37 @@ class ProviderTest extends Test
 		);
 	}
 
-	public function testGetSetRelations()
+	/**
+	 * @covers ::addRelation
+	 * @covers ::getRelation
+	 * @covers ::getRelations
+	 * @group  Orm
+	 */
+	public function testAddGetRelation()
 	{
-		$relationObject = new HasMany;
-		$relations = ['foobar' => $relationObject];
+		$relation = new AbstractRelationStub;
+		$name = 'test';
 
-		$this->object->setRelations($relations);
+		$this->object->addRelation($name, $relation);
 
 		$this->assertEquals(
-			$relationObject,
-			$this->object->getRelation('foobar')
+			$relation,
+			$this->object->getRelation($name)
 		);
 
 		$this->assertEquals(
-			$relations,
+			[$name => $relation],
 			$this->object->getRelations()
-		);
-
-		$this->object->removeRelation('foobar');
-
-		$this->assertEquals(
-			[],
-			$this->object->getRelations()
-		);
-
-		$this->object->addRelation('bazbat', $relationObject);
-
-		$this->assertEquals(
-			$relationObject,
-			$this->object->getRelation('bazbat')
 		);
 	}
 
 	/**
 	 * @expectedException InvalidArgumentException
+	 * @group             Orm
 	 */
-	public function testGetInvalidRelation()
+	public function testGettingAnUnknownRelation()
 	{
-		$this->object->getRelation('aasdasdasd');
+		$this->object->getRelation('I do not exist');
 	}
 
 }

@@ -10,7 +10,6 @@
 
 namespace Fuel\Orm\Relation;
 
-
 class HasMany extends AbstractRelation
 {
 

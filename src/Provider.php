@@ -61,6 +61,11 @@ abstract class Provider implements ProviderInterface
 	 */
 	protected $dbal;
 
+	/**
+	 * @var AbstractRelation[]
+	 */
+	protected $relations = [];
+
 	public function __construct(Connection $dbal)
 	{
 		$this->setDbal($dbal);
@@ -121,7 +126,7 @@ abstract class Provider implements ProviderInterface
 			return $models[0];
 		}
 
-		// TODO: make sure a collection is returned if needed
+		// make sure a collection is returned if needed
 		return $this->forgeModelCollectionInstance($models);
 	}
 
@@ -203,7 +208,7 @@ abstract class Provider implements ProviderInterface
 	{
 		if ($this->tableName === null)
 		{
-			throw new RuntimeException('ORM-003: No table name specified for [' . get_class() . ']');
+			throw new RuntimeException('ORM-003: No table name specified for [' . get_called_class() . ']');
 		}
 
 		return $this->tableName;
@@ -238,7 +243,38 @@ abstract class Provider implements ProviderInterface
 	}
 
 	/**
-	 * Gets all relations
+	 * Adds a relation to this provider
+	 *
+	 * @param string           $name
+	 * @param AbstractRelation $relation
+	 *
+	 * @return $this
+	 *
+	 * @since 2.0
+	 */
+	public function addRelation($name, AbstractRelation $relation)
+	{
+		$this->relations[$name] = $relation;
+
+		return $this;
+	}
+
+	/**
+	 * Checks if the given relation exists
+	 *
+	 * @param string $name
+	 *
+	 * @return bool
+	 *
+	 * @since 2.0
+	 */
+	public function hasRelation($name)
+	{
+		return isset($this->relations[$name]);
+	}
+
+	/**
+	 * Gets all relations assigned to this provider
 	 *
 	 * @return AbstractRelation[]
 	 *
@@ -250,60 +286,23 @@ abstract class Provider implements ProviderInterface
 	}
 
 	/**
-	 * Adds a new relation to the provider. Please note, adding a relation twice with the same name will result in the
-	 * first one being overridden.
-	 *
-	 * @param string           $name
-	 * @param AbstractRelation $relation
-	 *
-	 * @since 2.0
-	 */
-	public function addRelation($name, AbstractRelation $relation)
-	{
-		$this->relations[$name] = $relation;
-	}
-
-	/**
-	 * Removes a relation from the provider
-	 *
-	 * @param string $name
-	 *
-	 * @since 2.0
-	 */
-	public function removeRelation($name)
-	{
-		unset($this->relations[$name]);
-	}
-
-	/**
-	 * Gets a single relation
+	 * Gets the given relation
 	 *
 	 * @param string $name
 	 *
 	 * @return AbstractRelation
 	 *
+	 * @throws InvalidArgumentException
+	 *
 	 * @since 2.0
 	 */
 	public function getRelation($name)
 	{
-		if ( ! array_key_exists($name, $this->relations))
+		if ( ! $this->hasRelation($name))
 		{
-			throw new InvalidArgumentException("ORM-008: Relation [{$name}] does not exist in [".get_called_class().']');
+			throw new InvalidArgumentException('ORM-008: Relation ['.$name.'] does not exist in ['.get_called_class().']');
 		}
 
 		return $this->relations[$name];
 	}
-
-	/**
-	 * Sets the relations array, should be indexed by relation name.
-	 *
-	 * @param AbstractRelation[] $relations
-	 *
-	 * @since 2.0
-	 */
-	public function setRelations($relations)
-	{
-		$this->relations = $relations;
-	}
-
 }

@@ -16,7 +16,7 @@ namespace Fuel\Orm\Relation;
  * @package Fuel\Orm
  * @since   2.0
  */
-abstract class AbstractRelation
+class AbstractRelation
 {
 
 	/**
