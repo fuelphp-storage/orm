@@ -61,11 +61,6 @@ abstract class Provider implements ProviderInterface
 	 */
 	protected $dbal;
 
-	/**
-	 * @var AbstractRelation[]
-	 */
-	protected $relations = [];
-
 	public function __construct(Connection $dbal)
 	{
 		$this->setDbal($dbal);
