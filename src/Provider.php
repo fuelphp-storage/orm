@@ -56,14 +56,14 @@ abstract class Provider implements ProviderInterface
 	protected $relations = [];
 
 	/**
-	 * Connection class that will be used for interacting with the database
-	 * @var Connection
+	 * Class that will be used for building queries.
+	 * @var QueryBuilderInterface
 	 */
-	protected $dbal;
+	protected $queryBuilder;
 
-	public function __construct(Connection $dbal)
+	public function __construct(QueryBuilderInterface $queryBuilder)
 	{
-		$this->setDbal($dbal);
+		$this->setQueryBuilder($queryBuilder);
 	}
 
 	/**
@@ -210,31 +210,31 @@ abstract class Provider implements ProviderInterface
 	}
 
 	/**
-	 * Sets the DB instance to use to generate queries
+	 * Sets the query builder to use to generate queries
 	 *
-	 * @param Connection $dbal
+	 * @param QueryBuilderInterface $queryBuilder
 	 *
 	 * @return $this
 	 *
 	 * @since 2.0
 	 */
-	public function setDbal(Connection $dbal)
+	public function setQueryBuilder(QueryBuilderInterface $queryBuilder)
 	{
-		$this->dbal = $dbal;
+		$this->queryBuilder = $queryBuilder;
 
 		return $this;
 	}
 
 	/**
-	 * Gets the DB instance that this provider will use
+	 * Gets the query builder that this provider will use
 	 *
-	 * @return Connection
+	 * @return QueryBuilderInterface
 	 *
 	 * @since 2.0
 	 */
-	public function getDbal()
+	public function getQueryBuilder()
 	{
-		return $this->dbal;
+		return $this->queryBuilder;
 	}
 
 	/**

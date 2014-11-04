@@ -32,25 +32,6 @@ class Query implements QueryInterface, SubjectInterface
 	protected $provider;
 
 	/**
-	 * @var array
-	 */
-	protected $aliases = [];
-
-	/**
-	 * Contains the next alias number to use for properties
-	 *
-	 * @var int
-	 */
-	protected $nextAliasNumber = 0;
-
-	/**
-	 * Contains the query currently being constructed
-	 *
-	 * @var \Fuel\Database\Collector
-	 */
-	protected $currentQuery;
-
-	/**
 	 * Is set to true if the query result will need hydration or not. Used for select() queries.
 	 *
 	 * @var bool
@@ -90,17 +71,9 @@ class Query implements QueryInterface, SubjectInterface
 	 */
 	public function insert($models)
 	{
-		$provider = $this->getProvider();
-
-		$dbal = $provider->getDbal();
-
-		$this->currentQuery = $dbal
-			->insert($provider->getTableName());
-
-		foreach ($models as $model)
-		{
-			$this->currentQuery->values($model->toArray());
-		}
+		$this->getProvider()
+			->getQueryBuilder()
+			->insert($this->provider->getTableName(), $models);
 
 		return $this;
 	}
@@ -111,10 +84,9 @@ class Query implements QueryInterface, SubjectInterface
 	public function delete($models)
 	{
 		$provider = $this->getProvider();
+		$builder = $provider->getQueryBuilder();
 
-		$dbal = $provider->getDbal();
-
-		$this->currentQuery = $dbal->delete($provider->getTableName());
+		$builder->delete($provider->getTableName());
 
 		$inIds = [];
 
@@ -126,11 +98,11 @@ class Query implements QueryInterface, SubjectInterface
 
 		if (count($inIds) > 1)
 		{
-			$this->currentQuery->where('id', 'IN', $inIds);
+			$builder->where('id', 'IN', $inIds);
 		}
 		else
 		{
-			$this->currentQuery->where('id', $inIds);
+			$builder->where('id', '=', $inIds);
 		}
 
 		return $this;
@@ -145,11 +117,9 @@ class Query implements QueryInterface, SubjectInterface
 
 		$provider = $this->getProvider();
 
-		$columns = $provider->getProperties();
-
-		$dbal = $provider->getDbal();
-		$this->currentQuery = $dbal->selectArray($columns)
-			->from($provider->getTableName());
+		$this->provider
+			->getQueryBuilder()
+			->select($provider->getTableName(), $provider->getProperties());
 
 		return $this;
 	}
@@ -159,23 +129,12 @@ class Query implements QueryInterface, SubjectInterface
 	 */
 	public function update($model)
 	{
-		// TODO: Find out if multiple inserts can be done together.
+		// TODO: Find out if multiple updates can be done together.
+		// TODO: Use model diffs to make the queries smaller
 
-		$provider = $this->getProvider();
-
-		$this->currentQuery = $provider->getDbal()
-			->update($provider->getTableName());
-
-		foreach ($model as $name => $value)
-		{
-			if ($name !== 'id')
-			{
-				$this->currentQuery->set($name, $value);
-			}
-		}
-
-		// TODO: Update to use the actual PK
-		$this->currentQuery->where('id', $model->id);
+		$this->getProvider()
+			->getQueryBuilder()
+			->update($this->getProvider()->getTableName(), $model);
 
 		return $this;
 	}
@@ -185,18 +144,14 @@ class Query implements QueryInterface, SubjectInterface
 	 */
 	public function where($property, $operator, $value = null)
 	{
-		if ($this->currentQuery === null)
-		{
-			throw new LogicException('ORM-006: You must start a query before you can filter it');
-		}
-
 		if ($value === null)
 		{
 			$value = $operator;
 			$operator = '=';
 		}
 
-		$this->currentQuery->where($property, $operator, $value);
+		$this->provider->getQueryBuilder()
+			->where($property, $operator, $value);
 
 		return $this;
 	}
@@ -206,7 +161,9 @@ class Query implements QueryInterface, SubjectInterface
 	 */
 	public function execute()
 	{
-		$result = $this->currentQuery->execute();
+		$result = $this->getProvider()
+			->getQueryBuilder()
+			->execute();
 
 		if ($this->resultNeedsHydration)
 		{
@@ -227,21 +184,11 @@ class Query implements QueryInterface, SubjectInterface
 	 */
 	public function reset()
 	{
-		$this->currentQuery = null;
+		$this->getProvider()
+			->getQueryBuilder()
+			->reset();
 
 		return $this;
-	}
-
-	/**
-	 * Gets the query currently being constructed
-	 *
-	 * @return \Fuel\Database\Collector
-	 *
-	 * @since 2.0
-	 */
-	public function getCurrentQuery()
-	{
-		return $this->currentQuery;
 	}
 
 }

@@ -74,10 +74,10 @@ interface ProviderInterface
 	/**
 	 * Gets the Connection instance that this provider will use
 	 *
-	 * @return Connection
+	 * @return QueryBuilderInterface
 	 *
 	 * @since 2.0
 	 */
-	public function getDbal();
+	public function getQueryBuilder();
 
 }

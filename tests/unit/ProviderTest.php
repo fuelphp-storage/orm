@@ -32,7 +32,7 @@ class ProviderTest extends Test
 
 	protected function _before()
 	{
-		$db = \Mockery::mock('Fuel\Database\Connection');
+		$db = \Mockery::mock('Fuel\Orm\QueryBuilderInterface');
 
 		$this->object = new \ProviderStub($db);
 	}

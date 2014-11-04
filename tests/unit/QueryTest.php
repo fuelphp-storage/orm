@@ -12,8 +12,8 @@ namespace Fuel\Orm;
 
 use Codeception\TestCase\Test;
 use CodeGuy;
-use Fuel\Database\Connection;
 use Fuel\Orm\Provider\PostProvider;
+use Fuel\Orm\QueryBuilder\Fuel;
 use LogicException;
 
 /**
@@ -43,11 +43,14 @@ class QueryTest extends Test
 	}
 
 	/**
-	 * @covers ::setProvider
-	 * @covers ::getProvider
-	 * @covers ::__construct
-	 * @group  Orm
+	 * Gets a working query builder.
+	 * @return Fuel
 	 */
+	protected function getQueryBuilder()
+	{
+		return new Fuel($this->codeGuy->getDbInstance());
+	}
+
 	public function testGetSetProvider()
 	{
 		/** @type Query $object */
@@ -69,10 +72,6 @@ class QueryTest extends Test
 		);
 	}
 
-	/**
-	 * @covers ::select
-	 * @group  Orm
-	 */
 	public function testSingleSelect()
 	{
 		$this->codeGuy->haveInDatabase('posts', [
@@ -83,7 +82,7 @@ class QueryTest extends Test
 				'updated_at' => 321,
 			]);
 
-		$postProvider = new PostProvider($this->codeGuy->getDbInstance());
+		$postProvider = new PostProvider($this->getQueryBuilder());
 
 		$result = $postProvider->getQuery()
 			->select()
@@ -105,10 +104,6 @@ class QueryTest extends Test
 		);
 	}
 
-	/**
-	 * @covers ::select
-	 * @group  Orm
-	 */
 	public function testMultipleSelect()
 	{
 		$this->codeGuy->haveInDatabase('posts', [
@@ -126,7 +121,7 @@ class QueryTest extends Test
 				'updated_at' => 654,
 			]);
 
-		$postProvider = new PostProvider($this->codeGuy->getDbInstance());
+		$postProvider = new PostProvider($this->getQueryBuilder());
 
 		/** @type ModelCollection $result */
 		$result = $postProvider->getQuery()
@@ -144,10 +139,6 @@ class QueryTest extends Test
 		);
 	}
 
-	/**
-	 * @covers ::delete
-	 * @group  Orm
-	 */
 	public function testSingleDelete()
 	{
 		$model1 = [
@@ -168,7 +159,7 @@ class QueryTest extends Test
 		];
 		$this->codeGuy->haveInDatabase('posts', $model2);
 
-		$provider = new PostProvider($this->codeGuy->getDbInstance());
+		$provider = new PostProvider($this->getQueryBuilder());
 
 		$model = $provider->forgeModelInstance($model1);
 
@@ -187,10 +178,6 @@ class QueryTest extends Test
 		);
 	}
 
-	/**
-	 * @covers ::delete
-	 * @group  Orm
-	 */
 	public function testMultipleDelete()
 	{
 		$modelData1 = [
@@ -211,7 +198,7 @@ class QueryTest extends Test
 		];
 		$this->codeGuy->haveInDatabase('posts', $modelData2);
 
-		$provider = new PostProvider($this->codeGuy->getDbInstance());
+		$provider = new PostProvider($this->getQueryBuilder());
 
 		$model1 = $provider->forgeModelInstance($modelData1);
 		$model2 = $provider->forgeModelInstance($modelData2);
@@ -224,10 +211,6 @@ class QueryTest extends Test
 		$this->codeGuy->cantSeeInDatabase('posts', $modelData2);
 	}
 
-	/**
-	 * @covers ::insert
-	 * @group  Orm
-	 */
 	public function testSingleInsert()
 	{
 		$model1 = [
@@ -238,7 +221,7 @@ class QueryTest extends Test
 			'updated_at' => 321,
 		];
 
-		$provider = new PostProvider($this->codeGuy->getDbInstance());
+		$provider = new PostProvider($this->getQueryBuilder());
 
 		$model = $provider->forgeModelInstance($model1);
 
@@ -249,10 +232,6 @@ class QueryTest extends Test
 		$this->codeGuy->canSeeInDatabase('posts', $model1);
 	}
 
-	/**
-	 * @covers ::insert
-	 * @group  Orm
-	 */
 	public function testMultipleInsert()
 	{
 		$modelData1 = [
@@ -270,7 +249,7 @@ class QueryTest extends Test
 			'updated_at' => 654,
 		];
 
-		$provider = new PostProvider($this->codeGuy->getDbInstance());
+		$provider = new PostProvider($this->getQueryBuilder());
 
 		$model1 = $provider->forgeModelInstance($modelData1);
 		$model2 = $provider->forgeModelInstance($modelData2);
@@ -283,10 +262,6 @@ class QueryTest extends Test
 		$this->codeGuy->canSeeInDatabase('posts', $modelData2);
 	}
 
-	/**
-	 * @covers ::where
-	 * @group  Orm
-	 */
 	public function testSelectWithWhere()
 	{
 		$modelData1 = [
@@ -306,7 +281,7 @@ class QueryTest extends Test
 		$this->codeGuy->haveInDatabase('posts', $modelData1);
 		$this->codeGuy->haveInDatabase('posts', $modelData2);
 
-		$provider = new PostProvider($this->codeGuy->getDbInstance());
+		$provider = new PostProvider($this->getQueryBuilder());
 
 		$result = $provider->getQuery()
 			->select()
@@ -330,9 +305,7 @@ class QueryTest extends Test
 	}
 
 	/**
-	 * @covers            ::where
 	 * @expectedException LogicException
-	 * @group             Orm
 	 */
 	public function testWhereWithoutQuery()
 	{
@@ -342,10 +315,6 @@ class QueryTest extends Test
 		$query->where('foo', '<', 123);
 	}
 
-	/**
-	 * @covers ::update
-	 * @group  Orm
-	 */
 	public function testSingleUpdate()
 	{
 		$model1 = [
@@ -357,7 +326,7 @@ class QueryTest extends Test
 		];
 		$this->codeGuy->haveInDatabase('posts', $model1);
 
-		$provider = new PostProvider($this->codeGuy->getDbInstance());
+		$provider = new PostProvider($this->getQueryBuilder());
 		$model = $provider->forgeModelInstance($model1);
 
 		$model->title = 'shiny new title';
