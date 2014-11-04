@@ -1,15 +1,19 @@
 root = true
+
 [*]
 end_of_line = lf
 charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
+
 [composer.json]
 indent_style = tab
 indent_size = 4
+
 [*.php]
 indent_style = tab
 indent_size = 4
+
 [*.yml]
 indent_style = space
 indent_size = 2

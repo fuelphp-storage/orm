@@ -1,5 +1,5 @@
 imports:
-    - php
+  - php
 tools:
-    external_code_coverage:
-        timeout: 600
+  external_code_coverage:
+    timeout: 600
