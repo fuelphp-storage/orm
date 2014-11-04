@@ -158,7 +158,7 @@ abstract class Provider implements ProviderInterface
 	 */
 	public function getModelClass()
 	{
-		if ( ! in_array('Fuel\Orm\ModelInterface', class_implements($this->modelClass)))
+		if ( ! is_subclass_of($this->modelClass, 'Fuel\Orm\ModelInterface'))
 		{
 			throw new RuntimeException('ORM-002: The given model class must implement ModelInterface');
 		}
