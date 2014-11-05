@@ -21,10 +21,8 @@ use LogicException;
  * @author  Fuel Development Team
  * @since   2.0
  */
-class Query implements QueryInterface, SubjectInterface
+class Query implements QueryInterface
 {
-
-	use SubjectTrait;
 
 	/**
 	 * @var ProviderInterface
