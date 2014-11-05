@@ -10,10 +10,6 @@
 
 namespace Fuel\Orm;
 
-use Fuel\Orm\Observer\SubjectInterface;
-use Fuel\Orm\Observer\SubjectTrait;
-use LogicException;
-
 /**
  * Allows Providers to interact with the database
  *
