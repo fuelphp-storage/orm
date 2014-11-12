@@ -41,15 +41,15 @@ interface QueryInterface
 	public function setProvider(ProviderInterface $provider);
 
 	/**
-	 * Inserts a model or number of models
+	 * Inserts a model
 	 *
-	 * @param array|ModelInterface $models Models to insert
+	 * @param ModelInterface $models Model to insert
 	 *
 	 * @return $this
 	 *
 	 * @since 2.0
 	 */
-	public function insert($models);
+	public function insert($model);
 
 	/**
 	 * Deletes a model or number of models
@@ -74,7 +74,7 @@ interface QueryInterface
 	/**
 	 * Executes the prepared query
 	 *
-	 * @return bool|array|ModelInterface|ModelCollectionInterface
+	 * @return ModelInterface|ModelCollectionInterface
 	 *
 	 * @since 2.0
 	 */

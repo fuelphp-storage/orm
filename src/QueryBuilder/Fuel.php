@@ -70,20 +70,17 @@ class Fuel implements QueryBuilderInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function insert($table, $values)
+	public function insert($table, $row)
 	{
 		$this->currentQuery = $this->connection
 			->insert($table);
 
-		foreach ($values as $row)
+		if ($row instanceof ModelInterface)
 		{
-			if ($row instanceof ModelInterface)
-			{
-				$row = $row->toArray();
-			}
-
-			$this->currentQuery->values($row);
+			$row = $row->toArray();
 		}
+
+		$this->currentQuery->values($row);
 
 		return $this;
 	}

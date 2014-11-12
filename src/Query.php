@@ -20,17 +20,27 @@ namespace Fuel\Orm;
 class Query implements QueryInterface
 {
 
+	public static $QUERY_INSERT = 1;
+	public static $QUERY_SELECT = 2;
+	public static $QUERY_DELETE = 3;
+	public static $QUERY_UPDATE = 4;
+
+	/**
+	 * Defines the current query type
+	 * @var int
+	 */
+	protected $queryType;
+
 	/**
 	 * @var ProviderInterface
 	 */
 	protected $provider;
 
 	/**
-	 * Is set to true if the query result will need hydration or not. Used for select() queries.
-	 *
-	 * @var bool
+	 * Contains the model that is currently being inserted
+	 * @var ModelInterface
 	 */
-	protected $resultNeedsHydration = false;
+	protected $insertModel;
 
 	/**
 	 * @param ProviderInterface $provider Provider that owns this Query
@@ -63,11 +73,14 @@ class Query implements QueryInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function insert($models)
+	public function insert($model)
 	{
+		$this->queryType = static::$QUERY_INSERT;
 		$this->getProvider()
 			->getQueryBuilder()
-			->insert($this->provider->getTableName(), $models);
+			->insert($this->provider->getTableName(), $model);
+
+		$this->insertModel = $model;
 
 		return $this;
 	}
@@ -77,6 +90,7 @@ class Query implements QueryInterface
 	 */
 	public function delete($models)
 	{
+		$this->queryType = static::$QUERY_DELETE;
 		$provider = $this->getProvider();
 		$builder = $provider->getQueryBuilder();
 
@@ -107,7 +121,7 @@ class Query implements QueryInterface
 	 */
 	public function select()
 	{
-		$this->resultNeedsHydration = true;
+		$this->queryType = static::$QUERY_SELECT;
 
 		$provider = $this->getProvider();
 
@@ -126,6 +140,7 @@ class Query implements QueryInterface
 		// TODO: Find out if multiple updates can be done together.
 		// TODO: Use model diffs to make the queries smaller
 
+		$this->queryType = static::$QUERY_UPDATE;
 		$this->getProvider()
 			->getQueryBuilder()
 			->update($this->getProvider()->getTableName(), $model);
@@ -159,10 +174,17 @@ class Query implements QueryInterface
 			->getQueryBuilder()
 			->execute();
 
-		if ($this->resultNeedsHydration)
+		if ($this->queryType == static::$QUERY_SELECT)
 		{
 			return $this->getProvider()
 				->hydrate($result);
+		}
+		elseif ($this->queryType == static::$QUERY_INSERT)
+		{
+			// get the id and pass that to the model
+			$id = $result[0];
+			// TODO: move this to the provider
+			$this->insertModel['id'] = $id;
 		}
 
 		// Not directly needed but added for clarity
@@ -178,6 +200,8 @@ class Query implements QueryInterface
 	 */
 	public function reset()
 	{
+		$this->insertModel = null;
+		$this->queryType = null;
 		$this->getProvider()
 			->getQueryBuilder()
 			->reset();
