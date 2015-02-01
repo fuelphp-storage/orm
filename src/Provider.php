@@ -4,7 +4,7 @@
  * @version   2.0
  * @author    Fuel Development Team
  * @license   MIT License
- * @copyright 2010 - 2014 Fuel Development Team
+ * @copyright 2010 - 2015 Fuel Development Team
  * @link      http://fuelphp.com
  */
 
@@ -22,7 +22,7 @@ use RuntimeException;
  * @author  Fuel Development Team
  * @since   2.0
  */
-abstract class Provider implements ProviderInterface
+class Provider implements ProviderInterface
 {
 
 	/**
@@ -61,13 +61,13 @@ abstract class Provider implements ProviderInterface
 	 */
 	protected $queryBuilder;
 
-	public function __construct(QueryBuilderInterface $queryBuilder)
+	public function __construct(QueryBuilderInterface $queryBuilder = null)
 	{
-		$this->setQueryBuilder($queryBuilder);
+		$this->queryBuilder = $queryBuilder;
 	}
 
 	/**
-	 * Returns a list of properties
+	 * Returns a list of properties.
 	 *
 	 * @return array
 	 *
@@ -76,6 +76,18 @@ abstract class Provider implements ProviderInterface
 	public function getProperties()
 	{
 		return $this->properties;
+	}
+
+	/**
+	 * Sets the provider's properties.
+	 *
+	 * @param array $properties
+	 *
+	 * @since 2.0
+	 */
+	public function setProperties($properties)
+	{
+		$this->properties = $properties;
 	}
 
 	/**
@@ -191,7 +203,7 @@ abstract class Provider implements ProviderInterface
 	}
 
 	/**
-	 * Gets the name of the table assigned to this Provider
+	 * Gets the name of the table assigned to this Provider.
 	 *
 	 * @return string
 	 *
@@ -207,6 +219,18 @@ abstract class Provider implements ProviderInterface
 		}
 
 		return $this->tableName;
+	}
+
+	/**
+	 * Sets the table name that the provider will use.
+	 *
+	 * @param string $name
+	 *
+	 * @since 2.0
+	 */
+	public function setTableName($name)
+	{
+		$this->tableName = $name;
 	}
 
 	/**
