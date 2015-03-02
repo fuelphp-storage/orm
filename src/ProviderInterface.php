@@ -80,4 +80,13 @@ interface ProviderInterface
 	 */
 	public function getQueryBuilder();
 
+	/**
+	 * Sets the factory that was used to create this provider
+	 *
+	 * @param ProviderFactory $factory
+	 *
+	 * @since 2.0
+	 */
+	public function setFactory(ProviderFactory $factory);
+
 }

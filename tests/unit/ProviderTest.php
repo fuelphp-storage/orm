@@ -13,6 +13,7 @@ namespace Fuel\Orm;
 use Codeception\TestCase\Test;
 use Fuel\Orm\Relation\AbstractRelationStub;
 use InvalidArgumentException;
+use Mockery\Mock;
 
 /**
  * Tests for Provider
@@ -28,13 +29,13 @@ class ProviderTest extends Test
 	/**
 	 * @var \ProviderStub
 	 */
-	protected $object;
+	protected $provider;
 
 	protected function _before()
 	{
 		$db = \Mockery::mock('Fuel\Orm\QueryBuilderInterface');
 
-		$this->object = new \ProviderStub($db);
+		$this->provider = new \ProviderStub($db);
 	}
 
 	/**
@@ -45,7 +46,7 @@ class ProviderTest extends Test
 	{
 		$this->assertEquals(
 			['a','b','c',],
-			$this->object->getProperties()
+			$this->provider->getProperties()
 		);
 	}
 
@@ -56,7 +57,7 @@ class ProviderTest extends Test
 	public function testGetModel()
 	{
 		$data = ['test'];
-		$result = $this->object->forgeModelInstance($data);
+		$result = $this->provider->forgeModelInstance($data);
 
 		// Make sure we have a model
 		$this->assertInstanceOf(
@@ -72,7 +73,7 @@ class ProviderTest extends Test
 
 		// And make sure the provider has been set
 		$this->assertEquals(
-			$this->object,
+			$this->provider,
 			$result->getProvider()
 		);
 	}
@@ -85,7 +86,7 @@ class ProviderTest extends Test
 	{
 		$this->assertEquals(
 			'Fuel\Orm\Model',
-			$this->object->getModelClass()
+			$this->provider->getModelClass()
 		);
 	}
 
@@ -96,9 +97,9 @@ class ProviderTest extends Test
 	 */
 	public function testGetModelClassInvalid()
 	{
-		$this->object->setModelClass('\stdClass');
+		$this->provider->setModelClass('\stdClass');
 
-		$this->object->getModelClass();
+		$this->provider->getModelClass();
 	}
 
 	/**
@@ -109,7 +110,7 @@ class ProviderTest extends Test
 	{
 		$this->assertEquals(
 			'Fuel\Orm\ModelCollection',
-			$this->object->getModelCollectionClass()
+			$this->provider->getModelCollectionClass()
 		);
 	}
 
@@ -121,7 +122,7 @@ class ProviderTest extends Test
 	{
 		$this->assertInstanceOf(
 			'Fuel\Orm\ModelCollection',
-			$this->object->forgeModelCollectionInstance()
+			$this->provider->forgeModelCollectionInstance()
 		);
 	}
 
@@ -131,7 +132,7 @@ class ProviderTest extends Test
 	 */
 	public function testGetQuery()
 	{
-		$query = $this->object->getQuery();
+		$query = $this->provider->getQuery();
 
 		$this->assertInstanceOf(
 			'\Fuel\Orm\Query',
@@ -139,7 +140,7 @@ class ProviderTest extends Test
 		);
 
 		$this->assertEquals(
-			$this->object,
+			$this->provider,
 			$query->getProvider()
 		);
 	}
@@ -151,7 +152,7 @@ class ProviderTest extends Test
 	 */
 	public function testGetTableNameInvalid()
 	{
-		$this->object->getTableName();
+		$this->provider->getTableName();
 	}
 
 	/**
@@ -161,11 +162,11 @@ class ProviderTest extends Test
 	public function testGetTableName()
 	{
 		$name = 'my_table';
-		$this->object->setTableName($name);
+		$this->provider->setTableName($name);
 
 		$this->assertEquals(
 			$name,
-			$this->object->getTableName()
+			$this->provider->getTableName()
 		);
 	}
 
@@ -184,7 +185,7 @@ class ProviderTest extends Test
 		]];
 
 		/** @type ModelInterface $result */
-		$result = $this->object->hydrate($modelData);
+		$result = $this->provider->hydrate($modelData);
 
 		$this->assertInstanceOf(
 			'Fuel\Orm\ModelInterface',
@@ -219,7 +220,7 @@ class ProviderTest extends Test
 			],
 		];
 
-		$result = $this->object->hydrate($modelData);
+		$result = $this->provider->hydrate($modelData);
 
 		$this->assertInstanceOf(
 			'\Fuel\Orm\ModelCollection',
@@ -243,16 +244,16 @@ class ProviderTest extends Test
 		$relation = new AbstractRelationStub;
 		$name = 'test';
 
-		$this->object->addRelation($name, $relation);
+		$this->provider->addRelation($name, $relation);
 
 		$this->assertEquals(
 			$relation,
-			$this->object->getRelation($name)
+			$this->provider->getRelation($name)
 		);
 
 		$this->assertEquals(
 			[$name => $relation],
-			$this->object->getRelations()
+			$this->provider->getRelations()
 		);
 	}
 
@@ -262,7 +263,26 @@ class ProviderTest extends Test
 	 */
 	public function testGettingAnUnknownRelation()
 	{
-		$this->object->getRelation('I do not exist');
+		$this->provider->getRelation('I do not exist');
+	}
+
+	/**
+	 * @group Orm
+	 */
+	public function testGetSetFactory()
+	{
+		$this->assertNull(
+			$this->provider->getFactory()
+		);
+
+		$factory = \Mockery::mock('Fuel\Orm\ProviderFactory');
+
+		$this->provider->setFactory($factory);
+
+		$this->assertEquals(
+			$factory,
+			$this->provider->getFactory()
+		);
 	}
 
 }

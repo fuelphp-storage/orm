@@ -61,6 +61,12 @@ class Provider implements ProviderInterface
 	 */
 	protected $queryBuilder;
 
+	/**
+	 * Factory that created this Provider, allows other providers to be referenced by name.
+	 * @var ProviderFactory
+	 */
+	protected $factory;
+
 	public function __construct(QueryBuilderInterface $queryBuilder = null)
 	{
 		$this->queryBuilder = $queryBuilder;
@@ -324,4 +330,21 @@ class Provider implements ProviderInterface
 
 		return $this->relations[$name];
 	}
+
+	/**
+	 * @return ProviderFactory
+	 */
+	public function getFactory()
+	{
+		return $this->factory;
+	}
+
+	/**
+	 * @param ProviderFactory $factory
+	 */
+	public function setFactory(ProviderFactory $factory)
+	{
+		$this->factory = $factory;
+	}
+
 }

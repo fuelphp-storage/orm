@@ -48,7 +48,18 @@ class ProviderFactory
 		];
 	}
 
-	// TODO: Add constructed provider
+	/**
+	 * Adds an already constructed provider to the factory.
+	 *
+	 * @param string            $name
+	 * @param ProviderInterface $provider
+	 *
+	 * @since 2.0
+	 */
+	public function addInstance($name, ProviderInterface $provider)
+	{
+		$this->providers[$name] = $provider;
+	}
 
 	/**
 	 * Returns true if the given provider is known.
