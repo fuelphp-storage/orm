@@ -179,7 +179,7 @@ class Query implements QueryInterface
 			return $this->getProvider()
 				->hydrate($result);
 		}
-		elseif ($this->queryType == static::$QUERY_INSERT)
+		elseif ($this->queryType == static::$QUERY_INSERT and $this->insertModel instanceof ModelInterface)
 		{
 			// get the id and pass that to the model
 			$id = $result[0];
@@ -189,24 +189,6 @@ class Query implements QueryInterface
 
 		// Not directly needed but added for clarity
 		return $result;
-	}
-
-	/**
-	 * Resets the currently built query
-	 *
-	 * @return $this
-	 *
-	 * @since 2.0
-	 */
-	public function reset()
-	{
-		$this->insertModel = null;
-		$this->queryType = null;
-		$this->getProvider()
-			->getQueryBuilder()
-			->reset();
-
-		return $this;
 	}
 
 }

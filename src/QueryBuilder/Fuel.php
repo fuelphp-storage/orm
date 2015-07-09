@@ -12,6 +12,7 @@
 namespace Fuel\Orm\QueryBuilder;
 
 use Fuel\Database\Connection;
+use Fuel\Orm\ModelCollectionInterface;
 use Fuel\Orm\ModelInterface;
 use Fuel\Orm\QueryBuilderInterface;
 use LogicException;
@@ -77,10 +78,19 @@ class Fuel implements QueryBuilderInterface
 
 		if ($row instanceof ModelInterface)
 		{
-			$row = $row->toArray();
+			$this->currentQuery->values($row->toArray());
 		}
-
-		$this->currentQuery->values($row);
+		else if ($row instanceof ModelCollectionInterface or is_array($row))
+		{
+			foreach ($row as $model)
+			{
+				$this->currentQuery->values($model->toArray());
+			}
+		}
+		else
+		{
+			// TODO: No clue what we have, complain about it.
+		}
 
 		return $this;
 	}

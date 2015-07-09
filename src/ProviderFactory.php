@@ -29,6 +29,16 @@ class ProviderFactory
 	protected $providers = [];
 
 	/**
+	 * @var QueryBuilderInterface
+	 */
+	protected $queryBuilder;
+
+	public function __construct($queryBuilder = null)
+	{
+		$this->queryBuilder = $queryBuilder;
+	}
+
+	/**
 	 * Adds a new provider definition.
 	 *
 	 * @param string $name
@@ -96,6 +106,12 @@ class ProviderFactory
 		$provider = new Provider;
 		$provider->setProperties($config['properties']);
 		$provider->setTableName($config['tableName']);
+
+		// Assign a query builder if we have one
+		if ($this->queryBuilder !== null)
+		{
+			$provider->setQueryBuilder($this->queryBuilder);
+		}
 
 		$this->providers[$name] = $provider;
 		return $provider;

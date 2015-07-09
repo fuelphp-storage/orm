@@ -232,36 +232,65 @@ class QueryTest extends Test
 		$this->assertEquals('1', $model->id);
 	}
 
-	// TODO: Add this back in when multiple insert is reimplemented.
-//	public function testMultipleInsert()
-//	{
-//		$modelData1 = [
-//			'id' => '1',
-//			'title' => 'title',
-//			'description' => 'description',
-//			'created_at' => 123,
-//			'updated_at' => 321,
-//		];
-//		$modelData2 = [
-//			'id' => '2',
-//			'title' => 'title2',
-//			'description' => 'description2',
-//			'created_at' => 456,
-//			'updated_at' => 654,
-//		];
-//
-//		$provider = new PostProvider($this->getQueryBuilder());
-//
-//		$model1 = $provider->forgeModelInstance($modelData1);
-//		$model2 = $provider->forgeModelInstance($modelData2);
-//
-//		$provider->getQuery()
-//				->insert([$model1, $model2])
-//				->execute();
-//
-//		$this->codeGuy->canSeeInDatabase('posts', $modelData1);
-//		$this->codeGuy->canSeeInDatabase('posts', $modelData2);
-//	}
+	public function testMultipleInsert()
+	{
+		$modelData1 = [
+			'id' => '1',
+			'title' => 'title',
+			'description' => 'description',
+			'created_at' => 123,
+			'updated_at' => 321,
+		];
+		$modelData2 = [
+			'id' => '2',
+			'title' => 'title2',
+			'description' => 'description2',
+			'created_at' => 456,
+			'updated_at' => 654,
+		];
+
+		$provider = new PostProvider($this->getQueryBuilder());
+
+		$model1 = $provider->forgeModelInstance($modelData1);
+		$model2 = $provider->forgeModelInstance($modelData2);
+
+		$provider->getQuery()
+				->insert([$model1, $model2])
+				->execute();
+
+		$this->codeGuy->canSeeInDatabase('posts', $modelData1);
+		$this->codeGuy->canSeeInDatabase('posts', $modelData2);
+	}
+
+	public function testMultipleInsertWithCollection()
+	{
+		$modelData1 = [
+			'id' => '1',
+			'title' => 'title',
+			'description' => 'description',
+			'created_at' => 123,
+			'updated_at' => 321,
+		];
+		$modelData2 = [
+			'id' => '2',
+			'title' => 'title2',
+			'description' => 'description2',
+			'created_at' => 456,
+			'updated_at' => 654,
+		];
+
+		$provider = new PostProvider($this->getQueryBuilder());
+
+		$model1 = $provider->forgeModelInstance($modelData1);
+		$model2 = $provider->forgeModelInstance($modelData2);
+
+		$provider->getQuery()
+			->insert($provider->forgeModelCollectionInstance([$model1, $model2]))
+			->execute();
+
+		$this->codeGuy->canSeeInDatabase('posts', $modelData1);
+		$this->codeGuy->canSeeInDatabase('posts', $modelData2);
+	}
 
 	public function testSelectWithWhere()
 	{
