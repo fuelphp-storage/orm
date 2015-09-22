@@ -11,14 +11,13 @@
 namespace Fuel\Orm;
 
 use Codeception\TestCase\Test;
+use Fuel\Orm\Model;
 
 /**
  * Tests for ModelCollection
  *
  * @package Fuel\Orm
  * @author  Fuel Development Team
- *
- * @coversDefaultClass Fuel\Orm\ModelCollection
  */
 class ModelCollectionTest extends Test
 {
@@ -33,10 +32,6 @@ class ModelCollectionTest extends Test
 		$this->object = new ModelCollection;
 	}
 
-	/**
-	 * @covers ::getModelClass
-	 * @group  Orm
-	 */
 	public function testGetDefaultClass()
 	{
 		$this->assertEquals(
@@ -45,11 +40,6 @@ class ModelCollectionTest extends Test
 		);
 	}
 
-	/**
-	 * @covers ::getModelClass
-	 * @covers ::setModelClass
-	 * @group  Orm
-	 */
 	public function testGetSetDefaultClass()
 	{
 		$class = '\stdClass';
@@ -63,22 +53,16 @@ class ModelCollectionTest extends Test
 	}
 
 	/**
-	 * @covers            ::setModelClass
 	 * @expectedException \InvalidArgumentException
-	 * @group             Orm
 	 */
 	public function testSetInvalidDefaultClass()
 	{
 		$this->object->setModelClass(new \stdClass);
 	}
 
-	/**
-	 * @covers ::set
-	 * @group  Orm
-	 */
 	public function testSetModel()
 	{
-		$model = \Mockery::mock('\Fuel\Orm\Model');
+		$model = new Model;
 
 		$this->object->set(0, $model);
 
@@ -89,9 +73,7 @@ class ModelCollectionTest extends Test
 	}
 
 	/**
-	 * @covers            ::set
 	 * @expectedException \InvalidArgumentException
-	 * @group             Orm
 	 */
 	public function testSetWithNonObject()
 	{
@@ -99,40 +81,13 @@ class ModelCollectionTest extends Test
 	}
 
 	/**
-	 * @covers            ::set
 	 * @expectedException \InvalidArgumentException
-	 * @group             Orm
 	 */
 	public function testSetWithInvalidObject()
 	{
 		$this->object->set(0, new \stdClass);
 	}
 
-	/**
-	 * @covers ::setModelClass
-	 * @covers ::set
-	 * @covers ::get
-	 * @group  Orm
-	 */
-	public function testSetWithAlternateClassName()
-	{
-		$className = '\stdClass';
-		$object = new $className();
-
-		$this->object->setModelClass($className);
-
-		$this->object->set(0, $object);
-
-		$this->assertEquals(
-			$object,
-			$this->object->get(0)
-		);
-	}
-
-	/**
-	 * @covers ::__construct
-	 * @group  Orm
-	 */
 	public function testCreateModelCollectionWithModels()
 	{
 		$models = [

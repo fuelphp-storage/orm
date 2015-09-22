@@ -30,7 +30,7 @@ interface ModelCollectionInterface
 	 *
 	 * @since   2.0.0
 	 */
-	public function get($key, $default = null);
+	public function get($key = null, $default = null);
 
 	/**
 	 * @param string $modelClass

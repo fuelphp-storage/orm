@@ -16,7 +16,8 @@ use LogicException;
 /**
  * Tests for Alias
  *
- * @coversDefaultClass Fuel\Orm\Alias
+ * @package Fuel\Orm
+ * @author  Fuel Development Team
  */
 class AliasTest extends Test
 {
@@ -31,10 +32,6 @@ class AliasTest extends Test
 		$this->alias = new Alias;
 	}
 
-	/**
-	 * @covers ::aliasTable
-	 * @group  Orm
-	 */
 	public function testTableAlias()
 	{
 		$name = 'mytable';
@@ -45,10 +42,6 @@ class AliasTest extends Test
 		);
 	}
 
-	/**
-	 * @covers ::aliasTable
-	 * @group  Orm
-	 */
 	public function testTableMultipleAlias()
 	{
 		$name = 'mytable';
@@ -64,10 +57,6 @@ class AliasTest extends Test
 		);
 	}
 
-	/**
-	 * @covers ::aliasTable
-	 * @group  Orm
-	 */
 	public function testMultipleTableAlias()
 	{
 		$this->assertEquals(
@@ -81,10 +70,6 @@ class AliasTest extends Test
 		);
 	}
 
-	/**
-	 * @covers ::reverseTableAlias
-	 * @group  Orm
-	 */
 	public function testReverseTableAlias()
 	{
 		$this->assertEquals(
@@ -100,7 +85,6 @@ class AliasTest extends Test
 
 	/**
 	 * @expectedException LogicException
-	 * @group             Orm
 	 */
 	public function testInvalidReverseAlias()
 	{

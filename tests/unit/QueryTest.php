@@ -11,10 +11,10 @@
 namespace Fuel\Orm;
 
 use Codeception\TestCase\Test;
-use CodeGuy;
 use Fuel\Orm\Provider\PostProvider;
 use Fuel\Orm\QueryBuilder\Fuel;
 use LogicException;
+use Mockery;
 
 /**
  * Tests for Query
@@ -22,9 +22,7 @@ use LogicException;
  * @package Fuel\Orm
  * @author  Fuel Development Team
  *
- * @coversDefaultClass Fuel\Orm\Query
- *
- * @property CodeGuy $codeGuy
+ * @property \CodeGuy $codeGuy
  */
 class QueryTest extends Test
 {
@@ -36,7 +34,7 @@ class QueryTest extends Test
 	protected function getInstance()
 	{
 		/** @type ProviderInterface $provider */
-		$provider = \Mockery::mock('Fuel\Orm\ProviderInterface');
+		$provider = Mockery::mock('Fuel\Orm\ProviderInterface');
 		$object = new Query($provider);
 
 		return [$object, $provider];
@@ -62,7 +60,7 @@ class QueryTest extends Test
 			$object->getProvider()
 		);
 
-		$provider = \Mockery::mock('Fuel\Orm\ProviderInterface');
+		$provider = Mockery::mock('Fuel\Orm\ProviderInterface');
 
 		$object->setProvider($provider);
 

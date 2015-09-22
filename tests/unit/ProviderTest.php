@@ -13,15 +13,12 @@ namespace Fuel\Orm;
 use Codeception\TestCase\Test;
 use Fuel\Orm\Relation\AbstractRelationStub;
 use InvalidArgumentException;
-use Mockery\Mock;
 
 /**
  * Tests for Provider
  *
  * @package Fuel\Orm
  * @author  Fuel Development Team
- *
- * @coversDefaultClass Fuel\Orm\Provider
  */
 class ProviderTest extends Test
 {
@@ -38,10 +35,6 @@ class ProviderTest extends Test
 		$this->provider = new \ProviderStub($db);
 	}
 
-	/**
-	 * @covers ::getProperties
-	 * @group  Orm
-	 */
 	public function testGetProperties()
 	{
 		$this->assertEquals(
@@ -50,10 +43,6 @@ class ProviderTest extends Test
 		);
 	}
 
-	/**
-	 * @covers ::forgeModelInstance
-	 * @group  Orm
-	 */
 	public function testGetModel()
 	{
 		$data = ['test'];
@@ -78,10 +67,6 @@ class ProviderTest extends Test
 		);
 	}
 
-	/**
-	 * @covers ::getModelClass
-	 * @group  Orm
-	 */
 	public function testGetModelClass()
 	{
 		$this->assertEquals(
@@ -91,9 +76,7 @@ class ProviderTest extends Test
 	}
 
 	/**
-	 * @covers            ::getModelClass
 	 * @expectedException \RuntimeException
-	 * @group             Orm
 	 */
 	public function testGetModelClassInvalid()
 	{
@@ -102,10 +85,6 @@ class ProviderTest extends Test
 		$this->provider->getModelClass();
 	}
 
-	/**
-	 * @covers ::getModelCollectionClass
-	 * @group  Orm
-	 */
 	public function testGetModelCollectionClass()
 	{
 		$this->assertEquals(
@@ -114,10 +93,6 @@ class ProviderTest extends Test
 		);
 	}
 
-	/**
-	 * @covers ::forgeModelCollectionInstance
-	 * @group  Orm
-	 */
 	public function testGetModelCollectionInstance()
 	{
 		$this->assertInstanceOf(
@@ -126,10 +101,6 @@ class ProviderTest extends Test
 		);
 	}
 
-	/**
-	 * @covers ::getQuery
-	 * @group  Orm
-	 */
 	public function testGetQuery()
 	{
 		$query = $this->provider->getQuery();
@@ -146,19 +117,13 @@ class ProviderTest extends Test
 	}
 
 	/**
-	 * @covers            ::getTableName
 	 * @expectedException \RuntimeException
-	 * @group             Orm
 	 */
 	public function testGetTableNameInvalid()
 	{
 		$this->provider->getTableName();
 	}
 
-	/**
-	 * @covers ::getTableName
-	 * @group  Orm
-	 */
 	public function testGetTableName()
 	{
 		$name = 'my_table';
@@ -170,10 +135,6 @@ class ProviderTest extends Test
 		);
 	}
 
-	/**
-	 * @covers ::hydrate
-	 * @group  Orm
-	 */
 	public function testHydrate()
 	{
 		$age = 32;
@@ -203,10 +164,6 @@ class ProviderTest extends Test
 		);
 	}
 
-	/**
-	 * @covers ::hydrate
-	 * @group  Orm
-	 */
 	public function testHydrateWithMultipleModels()
 	{
 		$modelData = [
@@ -220,6 +177,7 @@ class ProviderTest extends Test
 			],
 		];
 
+		/** @var \Fuel\Orm\ModelCollection $result */
 		$result = $this->provider->hydrate($modelData);
 
 		$this->assertInstanceOf(
@@ -233,12 +191,6 @@ class ProviderTest extends Test
 		);
 	}
 
-	/**
-	 * @covers ::addRelation
-	 * @covers ::getRelation
-	 * @covers ::getRelations
-	 * @group  Orm
-	 */
 	public function testAddGetRelation()
 	{
 		$relation = new AbstractRelationStub;
@@ -259,22 +211,19 @@ class ProviderTest extends Test
 
 	/**
 	 * @expectedException InvalidArgumentException
-	 * @group             Orm
 	 */
 	public function testGettingAnUnknownRelation()
 	{
 		$this->provider->getRelation('I do not exist');
 	}
 
-	/**
-	 * @group Orm
-	 */
 	public function testGetSetFactory()
 	{
 		$this->assertNull(
 			$this->provider->getFactory()
 		);
 
+		/** @var \Fuel\Orm\ProviderFactory $factory */
 		$factory = \Mockery::mock('Fuel\Orm\ProviderFactory');
 
 		$this->provider->setFactory($factory);

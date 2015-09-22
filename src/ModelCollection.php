@@ -11,6 +11,7 @@
 namespace Fuel\Orm;
 
 use Fuel\Common\DataContainer;
+use InvalidArgumentException;
 
 /**
  * Allows interaction with collections of Models
@@ -37,6 +38,17 @@ class ModelCollection extends DataContainer implements ModelCollectionInterface
 	 */
 	protected $provider;
 
+	public function __construct($models = [], $readonly = false)
+	{
+		parent::__construct([], $readonly);
+
+		foreach ($models as $model)
+		{
+			// Trigger the set method so the provider is set.
+			$this[] = $model;
+		}
+	}
+
 	/**
 	 * Gets the full class name that this collection will accept
 	 *
@@ -54,7 +66,7 @@ class ModelCollection extends DataContainer implements ModelCollectionInterface
 	 *
 	 * @since 2.0
 	 *
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 */
 	public function setModelClass($modelClass)
 	{
@@ -67,7 +79,7 @@ class ModelCollection extends DataContainer implements ModelCollectionInterface
 				$actualClass = get_class($modelClass);
 			}
 
-			throw new \InvalidArgumentException('ORM-004: The model class name must be a string, [' . $actualClass . '] passed instead.');
+			throw new InvalidArgumentException('ORM-004: The model class name must be a string, [' . $actualClass . '] passed instead.');
 		}
 
 		$this->modelClass = $modelClass;
@@ -90,7 +102,12 @@ class ModelCollection extends DataContainer implements ModelCollectionInterface
 				$actualClass = get_class($value);
 			}
 
-			throw new \InvalidArgumentException('ORM-005: Invalid model instance. Expecting [' . $this->getModelClass() . '] got [' . $actualClass . ']');
+			throw new InvalidArgumentException('ORM-005: Invalid model instance. Expecting [' . $this->getModelClass() . '] got [' . $actualClass . ']');
+		}
+
+		if ($value->getProvider() === null and $this->getProvider() !== null)
+		{
+			$value->setProvider($this->getProvider());
 		}
 
 		return parent::set($key, $value);

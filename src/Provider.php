@@ -144,13 +144,7 @@ class Provider implements ProviderInterface
 	}
 
 	/**
-	 * Creates a new instance of the Provider's ModelCollection
-	 *
-	 * @param ModelInterface[] $models
-	 *
-	 * @return ModelCollectionInterface
-	 *
-	 * @since 2.0
+	 * {@inheritdoc}
 	 */
 	public function forgeModelCollectionInstance($models = [])
 	{
@@ -268,14 +262,7 @@ class Provider implements ProviderInterface
 	}
 
 	/**
-	 * Adds a relation to this provider
-	 *
-	 * @param string           $name
-	 * @param AbstractRelation $relation
-	 *
-	 * @return $this
-	 *
-	 * @since 2.0
+	 * {@inheritdoc}
 	 */
 	public function addRelation($name, AbstractRelation $relation)
 	{
@@ -285,13 +272,7 @@ class Provider implements ProviderInterface
 	}
 
 	/**
-	 * Checks if the given relation exists
-	 *
-	 * @param string $name
-	 *
-	 * @return bool
-	 *
-	 * @since 2.0
+	 * {@inheritdoc}
 	 */
 	public function hasRelation($name)
 	{
@@ -311,15 +292,7 @@ class Provider implements ProviderInterface
 	}
 
 	/**
-	 * Gets the given relation
-	 *
-	 * @param string $name
-	 *
-	 * @return AbstractRelation
-	 *
-	 * @throws InvalidArgumentException
-	 *
-	 * @since 2.0
+	 * {@inheritdoc}
 	 */
 	public function getRelation($name)
 	{
@@ -332,7 +305,7 @@ class Provider implements ProviderInterface
 	}
 
 	/**
-	 * @return ProviderFactory
+	 * {@inheritdoc}
 	 */
 	public function getFactory()
 	{
@@ -340,7 +313,7 @@ class Provider implements ProviderInterface
 	}
 
 	/**
-	 * @param ProviderFactory $factory
+	 * {@inheritdoc}
 	 */
 	public function setFactory(ProviderFactory $factory)
 	{

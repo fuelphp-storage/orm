@@ -10,6 +10,7 @@
 
 namespace Fuel\Orm;
 
+use Fuel\Common\Arr;
 use Fuel\Common\DataContainer;
 
 /**
@@ -36,6 +37,13 @@ class Model extends DataContainer implements ModelInterface
 	 * @var bool
 	 */
 	protected $isNew = true;
+
+	/**
+	 * Contains any loaded relations
+	 *
+	 * @var array
+	 */
+	protected $populatedRelations = [];
 
 	public function __construct($data = [], $readOnly = false)
 	{
@@ -148,6 +156,43 @@ class Model extends DataContainer implements ModelInterface
 	public function toArray()
 	{
 		return $this->data;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get($key = null, $default = null)
+	{
+		// Check if the property requested is a relation
+		if ($this->provider !== null and $this->provider->hasRelation($key))
+		{
+			return $this->loadRelations($key);
+		}
+
+		// Not a relation so throw the call up to the parent
+		return parent::get($key, $default);
+	}
+
+	/**
+	 * @param string $name
+	 *
+	 * @return ModelCollectionInterface|ModelInterface|null
+	 *
+	 * @since 2.0
+	 */
+	protected function loadRelations($name)
+	{
+		// Does it need loading?
+		if ( ! isset($this->populatedRelations[$name]))
+		{
+			// It does so grab the data
+			$this->populatedRelations[$name] = $this->provider
+				->getRelation($name)
+				->getModels($this);
+		}
+
+		// Return the relation
+		return Arr::get($this->populatedRelations, $name);
 	}
 
 }

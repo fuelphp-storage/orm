@@ -15,7 +15,7 @@ class CodeHelper extends \Codeception\Module
 	/**
 	 * Gets a working DB connection
 	 *
-	 * @return Connection
+	 * @returns \Fuel\Database\Connection
 	 */
 	public function getDbInstance()
 	{

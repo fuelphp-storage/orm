@@ -11,14 +11,13 @@
 namespace Fuel\Orm;
 
 use Codeception\TestCase\Test;
+use Mockery;
 
 /**
  * Tests for Model
  *
  * @package Fuel\Orm
  * @author  Fuel Development Team
- *
- * @coversDefaultClass Fuel\Orm\Model
  */
 class ModelTest extends Test
 {
@@ -33,11 +32,6 @@ class ModelTest extends Test
 		$this->object = new Model;
 	}
 
-	/**
-	 * @covers ::isNew
-	 * @covers ::setIsNew
-	 * @group  Orm
-	 */
 	public function testIsNew()
 	{
 		$this->assertTrue(
@@ -52,19 +46,14 @@ class ModelTest extends Test
 	}
 
 	/**
-	 * @covers            ::setIsNew
 	 * @expectedException \InvalidArgumentException
-	 * @group             Orm
 	 */
 	public function testIsNewInvalid()
 	{
+		/** @noinspection PhpParamsInspection */
 		$this->object->setIsNew(new \stdClass());
 	}
 
-	/**
-	 * @covers ::getOriginalData
-	 * @group  Orm
-	 */
 	public function testGetOriginalData()
 	{
 		$this->assertInstanceOf(
@@ -73,14 +62,10 @@ class ModelTest extends Test
 		);
 	}
 
-	/**
-	 * @covers ::setProvider
-	 * @covers ::getProvider
-	 * @group  Orm
-	 */
 	public function testSetGetProvider()
 	{
-		$provider = \Mockery::mock('Fuel\Orm\ProviderInterface');
+		/** @var \Fuel\Orm\ProviderInterface $provider */
+		$provider = Mockery::mock('Fuel\Orm\ProviderInterface');
 
 		$this->object->setProvider($provider);
 
@@ -90,11 +75,6 @@ class ModelTest extends Test
 		);
 	}
 
-	/**
-	 * @covers ::__construct
-	 * @covers ::getOriginalData
-	 * @group  Orm
-	 */
 	public function testConstructWithData()
 	{
 		$name = 'Test Model';

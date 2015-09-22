@@ -13,7 +13,7 @@
 	],
 	"require": {
 		"php": ">=5.4",
-		"fuelphp/common": "~2.0"
+		"fuelphp/common": "dev-master"
 	},
 	"require-dev": {
 		"codeception/codeception": "~2.0.0",

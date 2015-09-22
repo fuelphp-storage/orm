@@ -10,13 +10,16 @@
 
 namespace Fuel\Orm\Relation;
 
+use Fuel\Orm\ModelCollectionInterface;
+use Fuel\Orm\ModelInterface;
+
 /**
  * Defines a relation between two providers
  *
  * @package Fuel\Orm
  * @since   2.0
  */
-class AbstractRelation
+abstract class AbstractRelation
 {
 
 	/**
@@ -46,6 +49,15 @@ class AbstractRelation
 	 * @var string
 	 */
 	protected $providerTo;
+
+	/**
+	 * Returns the models that are represented by the relationship.
+	 *
+	 * @param ModelInterface  $modelFrom The parent, or left hand, model.
+	 *
+	 * @return ModelInterface|ModelCollectionInterface
+	 */
+	abstract function getModels(ModelInterface $modelFrom);
 
 	/**
 	 * @return string

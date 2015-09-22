@@ -11,6 +11,8 @@
 namespace Fuel\Orm;
 
 use Fuel\Database\Connection;
+use Fuel\Orm\Relation\AbstractRelation;
+use InvalidArgumentException;
 
 /**
  * Defines a common interface for classes that define models
@@ -41,6 +43,17 @@ interface ProviderInterface
 	 * @since 2.0
 	 */
 	public function forgeModelInstance($data = []);
+
+	/**
+	 * Creates a new instance of the Provider's ModelCollection
+	 *
+	 * @param ModelInterface[] $models
+	 *
+	 * @return ModelCollectionInterface
+	 *
+	 * @since 2.0
+	 */
+	public function forgeModelCollectionInstance($models = []);
 
 	/**
 	 * Creates model instances from assorted data
@@ -88,5 +101,48 @@ interface ProviderInterface
 	 * @since 2.0
 	 */
 	public function setFactory(ProviderFactory $factory);
+
+	/**
+	 * Checks if the given relation exists
+	 *
+	 * @param string $name
+	 *
+	 * @return bool
+	 *
+	 * @since 2.0
+	 */
+	public function hasRelation($name);
+
+	/**
+	 * Gets the given relation
+	 *
+	 * @param string $name
+	 *
+	 * @return AbstractRelation
+	 *
+	 * @throws InvalidArgumentException
+	 *
+	 * @since 2.0
+	 */
+	public function getRelation($name);
+
+	/**
+	 * Adds a relation to this provider
+	 *
+	 * @param string           $name
+	 * @param AbstractRelation $relation
+	 *
+	 * @return $this
+	 *
+	 * @since 2.0
+	 */
+	public function addRelation($name, AbstractRelation $relation);
+
+	/**
+	 * @return ProviderFactory
+	 *
+	 * @since 2.0
+	 */
+	public function getFactory();
 
 }

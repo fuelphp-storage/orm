@@ -33,6 +33,14 @@ class ProviderFactory
 	 */
 	protected $queryBuilder;
 
+	/**
+	 * Contains a map of relation names to relation classes
+	 * @var array
+	 */
+	protected $relationClasses = [
+		'hasMany' => '\Fuel\Orm\Relation\HasMany',
+	];
+
 	public function __construct($queryBuilder = null)
 	{
 		$this->queryBuilder = $queryBuilder;
@@ -104,8 +112,12 @@ class ProviderFactory
 
 		$config = $this->providerConfigs[$name];
 		$provider = new Provider;
+		$provider->setFactory($this);
 		$provider->setProperties($config['properties']);
 		$provider->setTableName($config['tableName']);
+
+		// Assign any relations we might have.
+		$this->assignRelationsToProvider($name, $config['relations'], $provider);
 
 		// Assign a query builder if we have one
 		if ($this->queryBuilder !== null)
@@ -115,6 +127,40 @@ class ProviderFactory
 
 		$this->providers[$name] = $provider;
 		return $provider;
+	}
+
+	/**
+	 * Populates the given provider with the relations from the relation config given.
+	 *
+	 * @param string            $parentProvider
+	 * @param array             $relations
+	 * @param ProviderInterface $provider
+	 *
+	 * @since 2.0
+	 */
+	protected function assignRelationsToProvider($parentProvider, $relations, ProviderInterface $provider)
+	{
+		foreach ($relations as $type => $configs)
+		{
+			// Check if we have a valid class
+			if ( ! isset($this->relationClasses[$type]))
+			{
+				continue;
+			}
+			$relationClass = $this->relationClasses[$type];
+
+			// If so assign all the relations for that type
+			foreach ($configs as $name => $relationConfig)
+			{
+				if (!isset($relationConfig['providerFrom']))
+				{
+					$relationConfig['providerFrom'] = $parentProvider;
+				}
+
+				$relation = new $relationClass($relationConfig);
+				$provider->addRelation($name, $relation);
+			}
+		}
 	}
 
 	/**

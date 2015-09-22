@@ -158,4 +158,5 @@ class Fuel implements QueryBuilderInterface
 		// TODO: Update to use the actual PK
 		$this->where('id', '=', $values['id']);
 	}
+
 }
