@@ -57,7 +57,7 @@ abstract class AbstractRelation
 	 *
 	 * @return ModelInterface|ModelCollectionInterface
 	 */
-	abstract function getModels(ModelInterface $modelFrom);
+	abstract public function getModels(ModelInterface $modelFrom);
 
 	/**
 	 * @return string
