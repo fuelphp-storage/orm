@@ -43,7 +43,7 @@ interface QueryInterface
 	/**
 	 * Inserts a model
 	 *
-	 * @param ModelInterface $models Model to insert
+	 * @param ModelInterface $model Model to insert
 	 *
 	 * @return $this
 	 *
